@@ -474,7 +474,7 @@ legend { font-family: var(--type); font-size: 1.12rem; }
    bei web3forms.com fuer grandhotelvaltrina@detektei-limmat.ch holen und hier eintragen.
    Ohne Schluessel zeigt die Seite den fertigen Bericht zum Kopieren und Versenden an. */
 const EINSTELLUNGEN = {
-  web3formsSchluessel: "",
+  web3formsSchluessel: "acae9c43-94b0-42f8-bfee-8e48cdb5fbb4",
   empfaenger: "grandhotelvaltrina@detektei-limmat.ch",
   betreff: "Fallbericht Valtrina"
 };
@@ -726,6 +726,7 @@ form.addEventListener("submit", async ev => {
   try {
     const daten = { access_key: EINSTELLUNGEN.web3formsSchluessel, subject: EINSTELLUNGEN.betreff, from_name: "Fragebogen Valtrina" };
     z.forEach(([k, v]) => { daten[k] = v; });
+    if (form.einwilligung.checked && form.email.value.trim()) daten.email = form.email.value.trim(); // damit «Antworten» direkt an die Leserin oder den Leser geht
     const r = await fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(daten) });
     const j = await r.json(); if (!j.success) throw new Error(j.message || "Fehler");
     abschluss(z, true, "Die Detektei Limmat liest jeden Bericht. Was du geschrieben hast, fliesst in den nächsten Fall ein.");
