@@ -71,7 +71,7 @@ body.nacht .toast { bottom: auto; top: calc(80px + env(safe-area-inset-top, 0px)
 @media (hover: none) { .lupenhinweis { display: none; } .tipphinweis { display: inline; } }
 .rahmen { border: 1px solid var(--gold); padding: 8px; background: var(--card); }
 .band1 figcaption { font-family: var(--serif); font-style: italic; color: var(--muted); margin-top: 10px; text-align: center; font-size: 1.05rem; }
-.frage { font-family: var(--display); font-style: italic; font-size: 1.85rem; line-height: 1.2; color: var(--burgund); margin: 0 0 18px; }
+.frage { font-family: var(--display); font-style: italic; font-size: 1.85rem; line-height: 1.2; color: var(--focus); margin: 0 0 18px; }
 .band1 .story p { margin: 0 0 14px; }
 .facts { margin: 26px 0 30px; border-top: 1px solid var(--line); }
 .facts div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
@@ -309,6 +309,11 @@ dialog.seitenlupe .lupe-tipp { margin: 8px 0 0; font-size: 0.9rem; opacity: 0.75
 .kreis { position: relative; isolation: isolate; color: #f1eadb; background: #0f1823; }
 .kreis::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url(img/schreibtisch.jpg) center / cover no-repeat; }
 .kreis::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(12,20,30,0.84) 0%, rgba(12,20,30,0.55) 45%, rgba(12,20,30,0.78) 100%); }
+/* Handy: Bild oben ansetzen und so zuschneiden, dass der Blick durchs Fenster auf Zürich sichtbar bleibt */
+@media (max-width: 720px) {
+  .kreis::before { background: url(img/schreibtisch.jpg) 72% var(--by, 280px) / auto 760px no-repeat, #0f1823; }
+  .kreis::after { background: linear-gradient(180deg, rgba(15,24,35,0.9) 0px, rgba(15,24,35,0.95) calc(var(--by, 280px) + 10px), rgba(12,20,30,0.3) calc(var(--by, 280px) + 120px), rgba(12,20,30,0.28) calc(var(--by, 280px) + 280px), rgba(12,20,30,0.6) calc(var(--by, 280px) + 500px), rgba(15,24,35,1) calc(var(--by, 280px) + 760px)); }
+}
 .kreis h2 { color: #f6efe0; }
 .kreis .kicker { color: #d9bf86; }
 .kreis .lead { color: #e2d9c6; }
@@ -1144,6 +1149,19 @@ const nacht = (() => {
     }
     btn.setAttribute("aria-pressed", String(!!wind)); btn.setAttribute("aria-label", wind ? "Wind ausschalten" : "Wind über der Limmat einschalten");
   });
+})();
+
+/* ---------- Ermittlerkreis: Fensterblick auf dem Handy hinter das Siegel legen ---------- */
+(() => {
+  const k = document.querySelector(".kreis"), seal = k && k.querySelector(".seal"), lead = k && k.querySelector(".lead");
+  if (!seal || !lead) return;
+  const setz = () => {
+    if (innerWidth > 720) { k.style.removeProperty("--by"); return; }
+    const top = k.getBoundingClientRect().top;
+    const sealTop = seal.getBoundingClientRect().top - top, leadEnde = lead.getBoundingClientRect().bottom - top;
+    k.style.setProperty("--by", Math.round(Math.max(sealTop - 105, leadEnde - 60)) + "px");
+  };
+  setz(); addEventListener("resize", setz); if (document.fonts) document.fonts.ready.then(setz);
 })();
 </script>
 </body>
