@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Detektei Limmat</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Detektei Limmat: illustrierte Rätselkrimis aus dem Zürich der Zwanzigerjahre, in denen du selbst ermittelst. Band 1: Lawinennacht im Grandhotel Valtrina.">
+<link rel="icon" href="img/detektei.svg" type="image/svg+xml">
+<meta property="og:title" content="Detektei Limmat · Rätselkrimis aus Zürich">
+<meta property="og:description" content="Jede Spur zählt. Die Anklage liegt bei dir. Band 1: Lawinennacht im Grandhotel Valtrina.">
+<meta property="og:image" content="https://detektei-limmat.ch/img/teilen.jpg">
+<meta property="og:url" content="https://detektei-limmat.ch/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Startseite in sieben Akten: Titel mit Buch, Band 1 mit Blick ins Buch, Spielprinzip, Probefall,
+   die Welt der Detektei (Buero und Pinnwand), die versiegelte Akte 2, der Ermittlerkreis. */
+section { position: relative; }
+
+/* ---------- 1 · Titel ---------- */
+.hero { position: relative; isolation: isolate; overflow: hidden; background: #101b28; color: #f1eadb; }
+.hero-bild { position: absolute; inset: 0; z-index: -2; background: url(img/hero_zuerich.jpg) 75% center / cover no-repeat; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(14,24,36,0.92) 0%, rgba(14,24,36,0.8) 30%, rgba(14,24,36,0.35) 52%, rgba(14,24,36,0) 68%); }
+.hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 450px) minmax(0, 220px) minmax(0, 1fr); gap: clamp(24px, 3vw, 44px); align-items: center; padding-block: clamp(56px, 8vw, 110px); min-height: min(78vh, 760px); }
+.hero .kicker { color: #d9bf86; }
+.hero h1 { font-size: clamp(2.9rem, 5.6vw, 4.4rem); line-height: 1.02; margin-top: 16px; color: #f6efe0; }
+.hero h1 em { display: block; font-style: italic; font-weight: 500; color: #d9bf86; font-size: 0.72em; margin-top: 8px; }
+.hero .orn { color: #d9bf86; }
+.hero p.intro { font-size: 1.18rem; max-width: 34ch; margin: 22px 0 32px; color: #e9e1d0; }
+.hero .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero .btn:not(.primary) { background: #f5efe2; color: #302c29; border-color: #d9bf86; }
+.hero .btn:not(.primary):hover { background: #fffaf0; }
+.buch3d { justify-self: start; width: 100%; max-width: 220px; perspective: 1400px; text-decoration: none; }
+.buch3d figure { margin: 0; position: relative; transform: rotateY(-20deg) rotateX(3deg); transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(.2,.7,.2,1); }
+.buch3d:hover figure { transform: rotateY(-8deg) rotateX(1deg); }
+.buch3d img { position: relative; width: 100%; border-radius: 1px 3px 3px 1px; box-shadow: 0 34px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.06); }
+.buch3d figure::before { content: ""; position: absolute; top: 1.2%; bottom: 1.2%; right: -14px; width: 15px; transform: rotateY(90deg); transform-origin: left; background: repeating-linear-gradient(0deg, #f3ecdc 0 1px, #d9cfb9 1px 2px); }
+.buch3d figure::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.35) 0, rgba(255,255,255,0.12) 2.2%, rgba(0,0,0,0) 5%); pointer-events: none; }
+.buch3d .figcap { display: block; margin: 18px auto 0; width: fit-content; padding: 5px 12px; background: rgba(14,24,36,0.72); border: 1px solid rgba(217,191,134,0.5); text-align: center; font-family: var(--label); font-weight: 600; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: #e3cc94; }
+
+/* ---------- Stromausfall: Taschenlampe ueber die ganze Seite ---------- */
+#night { position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: 0; transition: opacity 0.6s;
+  background: radial-gradient(circle var(--r, 130px) at var(--fx, 50%) var(--fy, 40%), rgba(6,9,13,0) 0, rgba(6,9,13,0.2) 58%, rgba(6,9,13,0.97) 100%); }
+body.nacht #night { opacity: 1; }
+.nightbar { position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; display: none; justify-content: center; align-items: center; gap: 12px 16px; flex-wrap: wrap;
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); color: #e3cc94; font-family: var(--type); }
+body.nacht .nightbar { display: flex; }
+.slots { display: flex; gap: 6px; }
+.slots span { width: 1.9rem; height: 2.3rem; display: grid; place-items: center; border-bottom: 2px solid #e3cc94; font-size: 1.4rem; }
+.nightbar .btn { background: rgba(6,9,13,0.7); color: #e3cc94; border-color: #e3cc94; padding: 8px 14px; }
+.clue { position: absolute; z-index: 4; width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 0; background: none; cursor: pointer; padding: 0;
+  font-family: var(--type); font-size: 1.7rem; color: #f3d58a; text-shadow: 0 0 10px rgba(243,213,138,0.95), 0 0 2px #000; opacity: 0; pointer-events: none; }
+body.nacht .clue { opacity: 1; pointer-events: auto; }
+body.nacht .clue.got { opacity: 0.25; pointer-events: none; }
+body.nacht .site-head { z-index: 30; }
+body.nacht .toast { bottom: auto; top: calc(80px + env(safe-area-inset-top, 0px)); z-index: 60; }
+
+/* ---------- 2 · Band 1 ---------- */
+.band1 { display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr); gap: clamp(32px, 5vw, 72px); align-items: start; margin-top: 40px; }
+.band1 figure { margin: 0; }
+.lupenbild { position: relative; overflow: hidden; cursor: crosshair; }
+.lupe { position: absolute; width: 170px; height: 170px; border-radius: 50%; border: 4px solid var(--gold); box-shadow: 0 10px 26px rgba(0,0,0,0.45), inset 0 0 18px rgba(0,0,0,0.35); pointer-events: none; background-repeat: no-repeat; opacity: 0; transition: opacity 0.2s; z-index: 2; }
+.lupenbild.aktiv .lupe { opacity: 1; }
+.tipphinweis { display: none; }
+@media (hover: none) { .lupenhinweis { display: none; } .tipphinweis { display: inline; } }
+.rahmen { border: 1px solid var(--gold); padding: 8px; background: var(--card); }
+.band1 figcaption { font-family: var(--serif); font-style: italic; color: var(--muted); margin-top: 10px; text-align: center; font-size: 1.05rem; }
+.frage { font-family: var(--display); font-style: italic; font-size: 1.85rem; line-height: 1.2; color: var(--burgund); margin: 0 0 18px; }
+.band1 .story p { margin: 0 0 14px; }
+.facts { margin: 26px 0 30px; border-top: 1px solid var(--line); }
+.facts div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font-family: var(--label); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+.kauf { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.kauf small { color: var(--muted); font-size: 0.9rem; flex-basis: 100%; }
+
+.innen { margin-top: clamp(56px, 7vw, 96px); }
+.innen-kopf { display: flex; justify-content: space-between; align-items: end; gap: 12px 24px; flex-wrap: wrap; }
+.spreads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 980px; gap: clamp(14px, 2.2vw, 28px); margin-top: 26px; }
+.spread { all: unset; cursor: zoom-in; display: grid; gap: 10px; }
+.spread img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid var(--line); box-shadow: 0 12px 26px rgba(22,38,56,0.12); transition: transform 0.25s, box-shadow 0.25s; }
+.spread:hover img, .spread:focus-visible img { transform: translateY(-4px); box-shadow: 0 18px 34px rgba(22,38,56,0.2); }
+.spread:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.spread b { font-family: var(--display); font-weight: 600; font-size: 1.3rem; line-height: 1.1; }
+.spread small { color: var(--muted); font-size: 0.9rem; }
+.exponat { margin-top: clamp(40px, 5vw, 64px); background: var(--navy); color: var(--navy-ink); border: 1px solid var(--gold); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(20px, 4vw, 48px); align-items: center; padding: clamp(22px, 4vw, 44px); }
+.exponat .kicker { color: var(--gold-soft); }
+.exponat h3 { color: var(--navy-ink); font-size: 2rem; margin: 8px 0 10px; }
+.exponat p { margin: 0 0 12px; opacity: 0.92; }
+.sheet9 { background: #f3ead6; color: #2a2622; padding: 20px 22px; margin: 16px 0; box-shadow: 0 10px 24px rgba(0,0,0,0.35); transform: rotate(-0.8deg); }
+.cipher { font-family: var(--type); font-size: 1.12rem; line-height: 1.9; margin: 0; min-height: 4.2em; white-space: pre-wrap; }
+.cipher .caret { display: inline-block; width: 0.55em; border-bottom: 2px solid #2a2622; animation: blink 0.9s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.exponat .btn { background: transparent; color: var(--gold-soft); border-color: var(--gold-soft); }
+.exponat img { box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+dialog.seitenlupe { border: 0; padding: 0; background: transparent; max-width: min(1200px, 96vw); width: 100%; color: #f1eadb; }
+dialog.seitenlupe::backdrop { background: rgba(10,16,24,0.88); }
+dialog.seitenlupe .bildbox { max-height: 80vh; overflow: auto; background: #fff; box-shadow: 0 30px 60px rgba(0,0,0,0.5); -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+dialog.seitenlupe img { display: block; width: 100%; max-height: 80vh; object-fit: contain; background: #fff; cursor: zoom-in; }
+dialog.seitenlupe img.gross { width: 230%; max-width: none; max-height: none; cursor: zoom-out; }
+dialog.seitenlupe .lupe-tipp { margin: 8px 0 0; font-size: 0.9rem; opacity: 0.75; }
+.linkbtn { all: unset; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; color: inherit; }
+.linkbtn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.lupe-leiste { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+.lupe-leiste p { margin: 0; font-family: var(--display); font-size: 1.3rem; }
+.lupe-leiste .btn { padding: 9px 14px; }
+
+/* ---------- 3 · Spielprinzip ---------- */
+.prinzip { background: var(--card); }
+.schritte { list-style: none; padding: 0; margin: 46px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; counter-reset: s; position: relative; }
+.schritte::before { content: ""; position: absolute; left: 6%; right: 6%; top: 26px; height: 1px; background: var(--gold); opacity: 0.6; }
+.schritte li { counter-increment: s; position: relative; text-align: center; padding: 0 6px; }
+.schritte li::before { content: counter(s); display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 16px; border-radius: 50%; border: 1px solid var(--gold); background: var(--card); font-family: var(--display); font-size: 1.6rem; color: var(--burgund); position: relative; }
+.schritte h3 { font-size: 1.4rem; margin-bottom: 6px; }
+.schritte p { margin: 0; color: var(--muted); }
+
+/* ---------- 4 · Probefall ---------- */
+.case { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(24px, 4vw, 52px); margin-top: 36px; align-items: start; }
+.leaf { background: var(--card); border: 1px solid var(--line); padding: clamp(22px, 3vw, 36px); box-shadow: 0 2px 0 var(--line), 0 18px 36px rgba(22,38,56,0.08); }
+.leaf .sec { font-family: var(--label); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); text-align: center; margin: 0 0 4px; }
+.leaf .secno { font-family: var(--display); font-size: 2.4rem; text-align: center; color: var(--burgund); line-height: 1; margin: 0 0 14px; }
+.leaf p { margin: 0 0 12px; }
+.leaf .story { font-size: 1.2rem; }
+.stufe { display: flex; align-items: center; gap: 10px; font-family: var(--label); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin: 14px 0 0; }
+.stufe i { font-style: normal; color: var(--burgund); letter-spacing: 0.1em; font-size: 0.9rem; }
+.notizbuch { margin-top: 26px; background: #f7f1e1; color: #2a2622; border: 1px solid #d8c9a6; padding: clamp(18px, 3vw, 28px); box-shadow: 0 14px 30px rgba(22,38,56,0.14);
+  background-image: repeating-linear-gradient(180deg, transparent 0 31px, rgba(63,111,143,0.18) 31px 32px); }
+.notizbuch .nb-kopf { font-family: var(--type); font-size: 1.15rem; margin: 0 0 10px; color: #722e38; }
+.notizbuch table { border-collapse: collapse; width: 100%; font-family: var(--type); font-size: 0.98rem; }
+.notizbuch th { text-align: left; font-family: var(--label); font-weight: 600; font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: #6c6358; padding: 0 12px 6px 0; }
+.notizbuch td { vertical-align: top; padding: 6px 12px 6px 0; line-height: 1.5; }
+.notizbuch td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums; color: #722e38; }
+.notizbuch .nb-fuss { font-family: var(--type); margin: 12px 0 0; color: #6c6358; }
+@keyframes aufschlagen { from { transform: rotateX(-65deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.notizbuch:not([hidden]) { animation: aufschlagen 0.7s cubic-bezier(.2,.7,.2,1); transform-origin: top; }
+.instrument { background: radial-gradient(circle at 50% 35%, var(--navy-2), var(--navy)); color: var(--navy-ink); border: 1px solid var(--gold); padding: clamp(20px, 3vw, 30px); display: grid; gap: 14px; justify-items: center; text-align: center; box-shadow: 0 20px 40px rgba(14,24,36,0.25); }
+.instrument .kicker { color: var(--gold-soft); }
+.instrument > p { margin: 0; color: var(--navy-ink); opacity: 0.9; }
+.gridtools { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.instrument .tip { border-left: 2px solid var(--gold-soft); padding: 8px 14px; background: rgba(255,255,255,0.06); font-style: italic; margin: 0; text-align: left; }
+.gaeste { margin: 4px 0 18px; padding-left: 1.2em; }
+.gaeste li { margin: 2px 0; }
+.hinweise { margin: 0; padding-left: 1.6em; font-family: var(--type); font-size: 1rem; line-height: 1.55; }
+.hinweise li { margin: 0 0 8px; }
+.hinweise li::marker { color: #722e38; }
+.gitterwrap { width: 100%; overflow-x: auto; background: #f7f1e1; padding: 10px; border: 1px solid #d8c9a6; }
+.gitter { border-collapse: collapse; margin: 0 auto; color: #2a2622; font-family: var(--label); }
+.gitter th { font-weight: 600; font-size: 0.72rem; color: #302c29; text-align: right; padding: 0 8px 0 0; white-space: nowrap; }
+.gitter th.v { vertical-align: bottom; text-align: center; padding: 0 0 8px; height: auto; }
+.gitter th.v span { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.04em; white-space: nowrap; line-height: 1; }
+.gitter td { padding: 0; border: 1px solid #b9a882; }
+.gitter td.o { border-left: 3px solid #162638; }
+.gitter td.o + td.o { border-left: 1px solid #b9a882; } /* nur der erste Ort trennt die beiden 4x4-Blöcke */
+.gitter tr:nth-child(2) td { border-top: 3px solid #162638; }
+.gitter tr.block2 td, .gitter tr.block2 th { border-top: 3px solid #162638; }
+.gitter td:nth-child(2) { border-left: 3px solid #162638; }
+.gitter td:nth-child(9) { border-right: 3px solid #162638; }
+.gitter tr:last-child td { border-bottom: 3px solid #162638; }
+.gitter td.leer { border: 0 !important; background: transparent; }
+.gitter tr.block2 td.leer { border-top: 3px solid #162638 !important; }
+.gitter tr.b2 td:nth-child(5) { border-right: 3px solid #162638; }
+.gitter .z { width: 2.15rem; height: 2.15rem; display: grid; place-items: center; border: 0; background: #fbf7ee; cursor: pointer; font-size: 1rem; color: #722e38; padding: 0; font-family: var(--label); }
+.gitter .z:hover { background: #efe2bd; }
+.gitter .z[data-v="1"] { color: #8a7d6a; }
+.gitter .z[data-v="2"] { background: #f3e3c0; }
+@media (max-width: 720px) { .gitterwrap { padding: 6px 4px; } .instrument { padding: 18px 12px; } .gitter .z { width: 1.65rem; height: 1.65rem; font-size: 0.88rem; } .gitter th { font-size: 0.6rem; padding-right: 5px; } .gitter th.v { padding-bottom: 5px; } }
+.answers { margin-top: 32px; border: 1px solid var(--line); background: var(--card); }
+.answers h3 { font-family: var(--label); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); text-align: center; padding: 14px 0 6px; }
+.ans { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 18px; border-top: 1px solid var(--line); }
+.ans b { font-family: var(--display); font-size: 1.3rem; color: var(--burgund); text-align: center; }
+.go { display: grid; justify-items: center; gap: 0; background: none; border: 1px solid transparent; cursor: pointer; color: var(--ink); padding: 4px 10px; border-radius: 3px; }
+.go:hover { border-color: var(--gold); }
+.go small { font-family: var(--label); font-weight: 600; font-size: 0.58rem; letter-spacing: 0.2em; color: var(--muted); }
+.go span { font-family: var(--display); font-size: 1.7rem; line-height: 1.1; }
+.flip { margin-top: 26px; }
+.flip .leaf { border-color: var(--gold); }
+.flip .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 16px; }
+.rangzeile { font-family: var(--type); text-align: center; color: var(--burgund); }
+.trapcount { font-family: var(--type); color: var(--muted); text-align: right; margin: 10px 0 0; font-size: 0.95rem; }
+@keyframes turn { from { transform: rotateY(-14deg) translateX(18px); opacity: 0.3; } to { transform: none; opacity: 1; } }
+.flip .leaf.turned { animation: turn 0.45s ease-out; transform-origin: left center; }
+
+/* ---------- 5 · Die Detektei ---------- */
+.office { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(28px, 5vw, 64px); align-items: start; margin-top: 36px; }
+.scene { position: relative; overflow: hidden; border: 1px solid var(--gold); padding: 8px; background: var(--card); }
+.scene-inner { position: relative; overflow: hidden; }
+.scene img { width: 100%; transition: filter 0.6s; }
+.spot { position: absolute; width: 1.7rem; height: 1.7rem; margin: -0.85rem 0 0 -0.85rem; border-radius: 50%; border: 1.5px solid rgba(255,250,236,0.95); background: rgba(176,139,74,0.55); color: transparent; font-size: 0; cursor: pointer; padding: 0; box-shadow: 0 0 0 0 rgba(255,250,236,0.6), 0 2px 6px rgba(0,0,0,0.4); animation: puls 3s infinite; transition: transform 0.15s, background 0.15s; }
+.spot:hover, .spot:focus-visible { transform: scale(1.3); background: rgba(176,139,74,0.95); }
+@keyframes puls { 70% { box-shadow: 0 0 0 10px rgba(255,250,236,0), 0 2px 6px rgba(0,0,0,0.4); } 100% { box-shadow: 0 0 0 0 rgba(255,250,236,0), 0 2px 6px rgba(0,0,0,0.4); } }
+.spot.seen { background: rgba(22,38,56,0.75); animation: none; }
+.spot[aria-pressed="true"] { background: #722e38; border-color: #fff; animation: none; transform: scale(1.25); }
+.scene.dunkel img { filter: brightness(0.16) saturate(0.4); }
+.scene.dunkel .spot { opacity: 0; pointer-events: none; }
+.taschenlampe { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; background: radial-gradient(circle 95px at var(--lx, 50%) var(--ly, 50%), rgba(255,236,190,0.0) 0, rgba(255,236,190,0.0) 55%, rgba(0,0,0,0) 100%); }
+.scene.dunkel .taschenlampe { opacity: 1; }
+.lichtkegel { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s; -webkit-mask: radial-gradient(circle 95px at var(--lx, 50%) var(--ly, 50%), #000 60%, transparent 100%); mask: radial-gradient(circle 95px at var(--lx, 50%) var(--ly, 50%), #000 60%, transparent 100%); }
+.lichtkegel img { width: 100%; filter: sepia(0.3) brightness(1.05); }
+.scene.dunkel .lichtkegel { opacity: 1; }
+.schluessel { position: absolute; left: 62%; top: 92%; width: 2.6rem; height: 1.4rem; margin: -0.7rem 0 0 -1.3rem; border: 0; padding: 0; background: none; cursor: pointer; opacity: 0; pointer-events: none; }
+.scene.dunkel .schluessel { pointer-events: auto; }
+.schluessel svg { width: 100%; height: 100%; filter: drop-shadow(0 0 4px rgba(255,220,140,0.9)); }
+.notiz { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--gold); padding: 16px 18px; margin: 22px 0 6px; min-height: 7.4em; }
+.notiz h3 { font-family: var(--type); font-weight: 400; font-size: 1.1rem; margin: 0 0 6px; }
+.notiz p { margin: 0; }
+.spuren { font-family: var(--type); color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; }
+.werkzeug { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 26px; }
+.werkzeug .btn { padding: 9px 14px; font-size: 0.72rem; }
+.schublade { border: 1px solid var(--gold); background: var(--navy); color: var(--navy-ink); padding: 18px 20px; margin: 0 0 26px; }
+.schublade h3 { color: var(--gold-soft); font-size: 1.45rem; margin-bottom: 6px; }
+.schublade p { margin: 0 0 12px; }
+@keyframes aufziehen { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+.schublade:not([hidden]) { animation: aufziehen 0.5s ease-out; }
+.steck { margin: 0 0 24px; border-top: 1px solid var(--line); }
+.steck div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.steck dt { font-family: var(--label); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.steck dd { margin: 0; }
+.uhr { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.uhr svg { width: 112px; height: 112px; flex: none; }
+.uhr .blatt { fill: var(--navy); stroke: var(--gold); stroke-width: 3; }
+.uhr .strich { stroke: var(--gold-soft); stroke-width: 2; }
+.uhr .zeiger { stroke: var(--gold-soft); stroke-linecap: round; }
+.uhr .mitte { fill: var(--gold-soft); }
+.uhr b { font-family: var(--display); font-weight: 600; font-size: 1.6rem; display: block; font-variant-numeric: tabular-nums; }
+.uhr small { display: block; color: var(--muted); margin-bottom: 8px; }
+.uhr .btn { padding: 9px 14px; font-size: 0.72rem; }
+
+/* Pinnwand */
+.pinnkopf { margin-top: clamp(64px, 8vw, 110px); }
+.board {
+  position: relative; margin-top: 16px; padding: clamp(22px, 3.5vw, 42px);
+  background-color: var(--cork);
+  background-image: radial-gradient(var(--cork-dot) 1.2px, transparent 1.6px), radial-gradient(var(--cork-dot) 1px, transparent 1.4px);
+  background-size: 14px 14px, 23px 23px; background-position: 0 0, 7px 11px;
+  border: 10px solid #4e3520; box-shadow: inset 0 0 40px rgba(0,0,0,0.25), 0 20px 40px rgba(14,24,36,0.18);
+}
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 40px) clamp(16px, 2.4vw, 30px); position: relative; align-items: start; }
+.pc { position: relative; perspective: 1000px; transition: opacity 0.25s, filter 0.25s; }
+.pc:nth-child(4n+1) { transform: rotate(-1.4deg); } .pc:nth-child(4n+2) { transform: rotate(1deg); }
+.pc:nth-child(4n+3) { transform: rotate(-0.5deg); } .pc:nth-child(4n) { transform: rotate(1.5deg); }
+.pc .pin { position: absolute; top: -7px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #f3b3a8, var(--pin) 55%, #5d1a14); box-shadow: 0 3px 4px rgba(0,0,0,0.4); z-index: 3; }
+.board.focus .pc { opacity: 0.4; filter: grayscale(0.6); }
+.board.focus .pc.self, .board.focus .pc.linked { opacity: 1; filter: none; }
+.rel { position: absolute; left: 50%; top: 10px; transform: translateX(-50%) rotate(-2deg); z-index: 4; max-width: 92%; padding: 4px 8px; background: #8f2d33; color: #fff; font-family: var(--type); font-size: 0.8rem; line-height: 1.25; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.35); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.rel small { display: block; font-family: var(--label); font-weight: 600; font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.9; margin-bottom: 1px; }
+.board.focus .pc.linked .rel { opacity: 1; }
+.pc-inner { display: grid; transition: transform 0.55s cubic-bezier(.3,.7,.3,1); transform-style: preserve-3d; }
+.pc.flipped .pc-inner { transform: rotateY(180deg); }
+.face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: var(--paper-card); color: #2a2622; padding: 10px 10px 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.face.front { align-self: start; }
+.face.back { transform: rotateY(180deg); padding: 16px 14px; gap: 8px; font-size: 0.95rem; }
+/* Die Rückseite bestimmt die Höhe nur, wenn die Karte umgedreht ist: sonst entstehen auf schmalen Bildschirmen grosse Lücken */
+.face.back { position: absolute; inset: 0 0 auto 0; }
+.pc.flipped .face.back { position: relative; inset: auto; }
+.pc.flipped .face.front { position: absolute; inset: 0 0 auto 0; }
+.photo { position: relative; border: 0; padding: 0; background: none; cursor: pointer; display: block; width: 100%; }
+.photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; filter: sepia(0.2) contrast(1.02); }
+.face h3 { font-family: var(--label); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #2a2622; margin: 4px 0 0; line-height: 1.3; }
+.face .role { font-family: var(--serif); font-style: italic; color: #6b6155; margin: 0; font-size: 1.05rem; line-height: 1.2; }
+.face.back p { margin: 0; line-height: 1.4; }
+.face.back .lbl { font-family: var(--label); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8a6a2f; margin-top: 4px; }
+.face.back ul { margin: 0; padding-left: 1.1em; }
+.verdacht { display: flex; flex-wrap: wrap; gap: 6px; }
+.verdacht button { font-family: var(--label); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 8px; border: 1px solid #b9ab92; background: transparent; color: #2a2622; cursor: pointer; border-radius: 2px; }
+.verdacht button[aria-pressed="true"] { border-color: #722e38; color: #fff; background: #722e38; }
+.turn { margin-top: auto; align-self: flex-start; font-family: var(--label); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 0; color: #8a6a2f; cursor: pointer; padding: 6px 0 0; }
+.stamp-mark { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%) rotate(-14deg); border: 3px double #8f2d33; color: #8f2d33; font-family: var(--label); font-weight: 600; font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 8px; background: rgba(251,247,238,0.85); white-space: nowrap; pointer-events: none; }
+.board-status { font-family: var(--type); color: var(--muted); margin: 14px 0 0; min-height: 3.2em; max-width: 80ch; }
+.board-status b { color: var(--burgund); font-weight: 400; }
+.quote { margin: 46px auto 0; max-width: 34ch; text-align: center; font-family: var(--display); font-size: 1.8rem; font-style: italic; color: var(--burgund); line-height: 1.25; }
+.quote small { display: block; margin-top: 12px; font-family: var(--label); font-weight: 600; font-style: normal; font-size: 0.68rem; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; }
+
+/* ---------- 6 · Akte 2 ---------- */
+.akte2 { background: var(--navy); color: var(--navy-ink); }
+.akte2 .wrap { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.akte2 h2 { color: var(--navy-ink); }
+.akte2 .kicker { color: var(--gold-soft); }
+.akte2 p { opacity: 0.92; }
+.mappe2 { position: relative; background: linear-gradient(160deg, #c9a56a, #b38a50); color: #2a2622; padding: 34px clamp(20px, 4vw, 40px) 30px; box-shadow: 0 26px 50px rgba(0,0,0,0.45); border-radius: 2px; }
+.mappe2::before { content: ""; position: absolute; left: 24px; top: -18px; width: 160px; height: 20px; background: #c9a56a; clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%); }
+.mappe2 .tab { position: absolute; left: 38px; top: -15px; font-family: var(--label); font-weight: 600; font-size: 0.6rem; letter-spacing: 0.22em; color: #4a3a22; }
+.mappe2 h3 { font-size: 1.9rem; color: #2a2622; margin: 0 0 6px; }
+.mappe2 .typed { font-family: var(--type); color: #4a3a22; }
+.siegel { all: unset; cursor: pointer; display: block; width: 112px; height: 112px; margin: 16px auto 8px; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); transition: transform 0.2s; }
+.siegel:hover { transform: rotate(-6deg) scale(1.04); }
+.siegel:focus-visible { outline: 2px solid #2a2622; outline-offset: 6px; border-radius: 50%; }
+.siegel svg { width: 100%; height: 100%; }
+@keyframes bruch { 0% { transform: none; } 40% { transform: rotate(-12deg) scale(1.08); } 100% { transform: translateY(30px) rotate(25deg); opacity: 0; } }
+.siegel.bricht { animation: bruch 0.7s ease-in forwards; }
+.pruefung { display: grid; gap: 10px; margin-top: 10px; }
+.pruefung label { font-family: var(--serif); font-size: 1.2rem; line-height: 1.35; }
+.pruefung .zeile { display: flex; gap: 10px; flex-wrap: wrap; }
+.pruefung input { flex: 1 1 180px; min-width: 0; font: inherit; font-family: var(--type); letter-spacing: 0.08em; padding: 11px 12px; border: 1px solid #8a6a2f; background: #f6ecd6; color: #2a2622; border-radius: 2px; }
+.mappe2 .msg { font-family: var(--type); color: #722e38; margin: 4px 0 0; min-height: 1.4em; }
+.mappe2 .klein { font-size: 0.95rem; margin: 6px 0 0; }
+.mappe2 a { color: #722e38; }
+.offen h3 { margin-bottom: 10px; }
+.karte { display: inline-block; margin: 14px 0 6px; padding: 16px 24px; background: #f6ecd6; color: #2a2622; font-family: var(--type); font-size: 1.12rem; transform: rotate(-1.5deg); box-shadow: 0 10px 22px rgba(0,0,0,0.3); }
+@keyframes oeffnen { from { transform: rotateX(70deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.offen:not([hidden]) { animation: oeffnen 0.6s ease-out; transform-origin: top; }
+
+/* ---------- 7 · Ermittlerkreis ---------- */
+.kreis { position: relative; isolation: isolate; color: #f1eadb; background: #0f1823; }
+.kreis::before { content: ""; position: absolute; inset: 0; z-index: -2; background: url(img/schreibtisch.jpg) center / cover no-repeat; }
+.kreis::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(12,20,30,0.84) 0%, rgba(12,20,30,0.55) 45%, rgba(12,20,30,0.78) 100%); }
+.kreis h2 { color: #f6efe0; }
+.kreis .kicker { color: #d9bf86; }
+.kreis .lead { color: #e2d9c6; }
+.kreis-kopf { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 40px; align-items: center; }
+.seal { width: 200px; height: 200px; }
+.seal text { font-family: var(--label); font-weight: 600; font-size: 13px; letter-spacing: 4.4px; fill: #d9bf86; }
+.seal circle { fill: none; stroke: #d9bf86; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.seal .ring { transform-origin: 100px 100px; animation: spin 50s linear infinite; }
+.seal:hover .ring { animation-duration: 8s; }
+.kreis-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 3vw, 32px); margin-top: 38px; }
+.tafel2 { background: rgba(251,248,241,0.97); color: #302c29; padding: clamp(22px, 3vw, 34px); border: 1px solid #b08b4a; display: flex; flex-direction: column; gap: 12px; }
+.tafel2 h3 { font-size: 1.9rem; color: #162638; }
+.tafel2 p { margin: 0; }
+.tafel2 ul { margin: 0; padding-left: 1.2em; }
+.tafel2 .btn { align-self: flex-start; margin-top: auto; }
+.tafel2 .kicker { color: #8a6a2f; }
+.beitritt { display: grid; gap: 10px; }
+.beitritt input[type="email"], .beitritt input[type="text"] { width: 100%; font: inherit; padding: 11px 12px; border: 1px solid #cbbd9f; background: #fff; color: #302c29; border-radius: 2px; }
+.beitritt .ok { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; color: #6c6358; }
+.beitritt .ok input { margin-top: 3px; accent-color: #722e38; width: 20px; height: 20px; flex: none; }
+.beitritt .msg { font-family: var(--type); color: #722e38; min-height: 1.4em; margin: 0; font-size: 0.95rem; }
+.beitritt .mail { font-size: 0.9rem; color: #302c29; }
+.beitritt .zeile { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 960px) {
+  .hero .wrap, .band1, .case, .office, .akte2 .wrap, .kreis-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero .wrap { min-height: 0; padding-top: 0; }
+  .hero-bild { position: relative; inset: auto; height: 56vw; min-height: 230px; background-position: 80% 40%; z-index: 0; }
+  .hero::before { background: linear-gradient(180deg, rgba(14,24,36,0) 0, rgba(14,24,36,0) 40vw, #0e1824 56vw, #0e1824 100%); z-index: 0; }
+  .hero .wrap { position: relative; z-index: 1; padding-top: 28px; }
+  .buch3d { justify-self: center; max-width: 220px; }
+  .spreads { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+  .exponat, .kreis-kopf { grid-template-columns: minmax(0, 1fr); }
+  .seal { width: 150px; height: 150px; justify-self: start; }
+  .schritte { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .schritte::before { display: none; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .schritte { grid-template-columns: minmax(0, 1fr); }
+  .facts div, .steck div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .hero h1 { font-size: 2.7rem; }
+  .spreads { grid-template-columns: minmax(0, 1fr); }
+  .notizbuch td:first-child { white-space: normal; }
+  .ans { padding: 10px 12px; }
+}
+@media (pointer: coarse) {
+  .spot { width: 2.2rem; height: 2.2rem; margin: -1.1rem 0 0 -1.1rem; }
+  .turn { padding: 12px 0 4px; }
+  .verdacht button { padding: 9px 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buch3d figure, .pc-inner, #inner, .scene img, .spread img { transition: none; }
+  .spot, .bell.ding, .flip .leaf.turned, .schublade:not([hidden]), .offen:not([hidden]), .siegel.bricht, .seal .ring, .notizbuch:not([hidden]), .leiste span { animation: none; }
+  #night { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/detektei.svg" alt=""><span><b>Detektei Limmat</b><small>Rätselkrimis aus Zürich</small></span></a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="#band-1">Die Bücher</a>
+      <a href="#probefall">Probefall</a>
+      <a href="#detektei">Die Detektei</a>
+      <a class="pill" href="#band-1"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 5c-2-1.5-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12C15 3 12 3.5 10 5zm0 0v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Band 1</a>
+      <span class="icons">
+        <button class="ibtn" type="button" id="sound" aria-pressed="false" aria-label="Wind über der Limmat einschalten" title="Ton"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h3l4-3v10l-4-3H3z M13.5 7a4 4 0 0 1 0 6 M15.5 5a7 7 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="ibtn" type="button" id="lights" aria-pressed="false" aria-label="Licht löschen und mit der Taschenlampe suchen" title="Licht aus"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 2h6v6l2 3v7H5v-7l2-3z M7 8h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<div id="night" aria-hidden="true"></div>
+<div class="nightbar" id="nightbar">
+  <span>Stromausfall. Sechs Buchstaben liegen auf der Seite versteckt:</span>
+  <span class="slots" id="slots" aria-live="polite"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+  <button class="btn" type="button" id="lights2">Licht an</button>
+</div>
+
+<main id="top">
+  <!-- 1 · Titel -->
+  <section class="hero" aria-labelledby="titel">
+    <button class="clue" type="button" data-i="0" style="left:46%;bottom:26px" aria-label="Versteckter Buchstabe" tabindex="-1">L</button>
+    <div class="hero-bild" role="img" aria-label="Zürich im Schnee bei Nacht: die Limmat, eine Steinbrücke, das Grossmünster und eine Laterne"></div>
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div>
+        <p class="kicker">Rätselkrimis aus Zürich</p>
+        <h1 id="titel">Jede Spur zählt.<em>Die Anklage liegt bei dir.</em></h1>
+        <div class="orn" aria-hidden="true"><span></span></div>
+        <p class="intro">Illustrierte Kriminalfälle aus dem Zürich der Zwanzigerjahre. Du liest, kombinierst und entscheidest, und am Ende klagst du selbst den Täter an.</p>
+        <div class="actions">
+          <a class="btn primary" href="#band-1"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 5c-2-1.5-5-2-8-1.5v12c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-12C15 3 12 3.5 10 5zm0 0v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Band 1 entdecken</a>
+          <a class="btn" href="#probefall"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12.6 12.6 18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Probefall spielen</a>
+        </div>
+      </div>
+      <a class="buch3d" href="#band-1" aria-label="Band 1 ansehen: Lawinennacht im Grandhotel Valtrina">
+        <figure><img src="img/cover.jpg" alt="Buchumschlag: Lawinennacht im Grandhotel Valtrina, ein Rätselkrimi mit 18 Rätseln von Daniel Loher" width="733" height="1049"></figure>
+        <span class="figcap">Band 1 · jetzt erhältlich</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 2 · Band 1 -->
+  <section class="section" id="band-1" aria-labelledby="b1">
+    <button class="clue" type="button" data-i="1" style="right:5%;top:52px" aria-label="Versteckter Buchstabe" tabindex="-1">I</button>
+    <div class="wrap">
+      <p class="kicker">Band 1 · Das aktuelle Buch</p>
+      <h2 id="b1">Lawinennacht im Grandhotel Valtrina</h2>
+      <div class="orn" aria-hidden="true"><span></span></div>
+      <div class="band1">
+        <figure>
+          <div class="rahmen"><div class="lupenbild" id="lupenbild"><span class="lupe" id="lupe" aria-hidden="true"></span><img src="img/hotel.jpg" alt="Illustration: das Grandhotel Valtrina im Winter, hoch über dem Tal" width="1200" height="1499"></div></div>
+          <figcaption>Das Grandhotel Valtrina, 1900 m ü. M., Januar 1927<span class="lupenhinweis"> · Fahr mit der Lupe darüber oder klick, um es gross anzusehen.</span><span class="tipphinweis"> · Tippe darauf, um es gross anzusehen.</span></figcaption>
+        </figure>
+        <div>
+          <p class="frage">Jeder hat ein Geheimnis. Wem kannst du trauen?</p>
+          <div class="story">
+            <p>Graubünden, Januar 1927. Der Winterball im Grandhotel Valtrina endet tödlich: Der Gastgeber liegt erschlagen im Wintergarten. Neben ihm der Eispickel des Bergführers. Seine Taschenuhr zeigt 0:01.</p>
+            <p>Eine Lawine schneidet das Hotel von der Aussenwelt ab. Du bist mittendrin. Dann geschieht ein zweiter Mord.</p>
+            <p>Prüfe Alibis, entschlüssle geheime Botschaften und folge den Spuren eines zwanzig Jahre alten Geheimnisses. Am Ende musst du den Täter anklagen. Aber reichen deine Beweise?</p>
+          </div>
+          <dl class="facts">
+            <div><dt>Schauplatz</dt><dd>Grandhotel in Graubünden, Januar 1927</dd></div>
+            <div><dt>Rätsel</dt><dd>18, von sanft bis knifflig, mit Tipps und vollständigen Lösungen</dd></div>
+            <div><dt>Ausgabe</dt><dd>Taschenbuch, 132 Seiten, durchgehend farbig illustriert</dd></div>
+            <div><dt>Für</dt><dd>Rätselfans ab 14 Jahren, allein oder zu zweit</dd></div>
+            <div><dt>ISBN</dt><dd>979-8164707675</dd></div>
+          </dl>
+          <div class="kauf">
+            <a class="btn primary" href="https://www.amazon.de/s?k=9798164707675" rel="noopener" target="_blank">Bei Amazon ansehen</a>
+            <a class="btn" href="#innen">Blick ins Buch</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="innen" id="innen">
+        <div class="innen-kopf">
+          <div><p class="kicker">Ein Blick ins Innere</p><h3 style="font-size:2rem;margin-top:8px">So sieht ein Fall aus.</h3></div>
+          <p style="margin:0;color:var(--muted);max-width:42ch">Zwei Doppelseiten aus dem Buch. Tippe auf eine, um sie gross anzusehen.</p>
+        </div>
+        <div class="spreads">
+          <button class="spread" type="button" data-i="0" data-gross="img/innen_schauplatz_gross.jpg"><img src="img/innen_schauplatz.jpg" alt="Doppelseite: Der Schauplatz, das Grandhotel Valtrina mit Plan aller Stockwerke" width="1800" height="1350"><b>Der Schauplatz</b><small>Seite 10 und 11 · das Hotel, Stockwerk für Stockwerk</small></button>
+          <button class="spread" type="button" data-i="1" data-gross="img/innen_brief_gross.jpg"><img src="img/innen_brief.jpg" alt="Doppelseite: Rätsel 1, Der Brief" width="1800" height="1350"><b>Rätsel 1: Der Brief</b><small>Seite 14 und 15 · was steht zwischen den Zeilen?</small></button>
+        </div>
+        <div class="exponat">
+          <div>
+            <p class="kicker">Zum Ausprobieren · Rätsel 9</p>
+            <h3>Brunners Entwurf</h3>
+            <p>Dr. Brunner tippt mit zwei Fingern und schaut nie auf die Tasten. Nach dem dritten Kirsch sitzen seine Hände nicht mehr dort, wo sie hingehören. Kannst du lesen, was er geschrieben hat?</p>
+            <div class="sheet9"><p class="cipher" id="cipher" aria-label="Bskztubs 24 2 2836. Drgt hrrgtzrt Grtt Exdd">Bskztubs 24 2 2836
+Drgt hrrgtzrt Grtt Exdd</p></div>
+            <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+              <button class="btn" type="button" id="type9">Blatt neu einspannen</button>
+              <span style="opacity:.8;font-size:0.95rem">Mit Ton. Die Lösung steht im Buch.</span>
+            </div>
+          </div>
+          <img src="img/entwurf.jpg" alt="Illustration: getippter Entwurf auf Papier über einer Schreibmaschinentastatur" width="1062" height="1420">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="seitenlupe" id="seitenlupe" aria-label="Doppelseite aus dem Buch">
+    <div class="bildbox" id="bildbox"><img id="lupe-bild" src="img/innen_schauplatz.jpg" alt=""></div>
+    <p class="lupe-tipp">Tippe auf die Seite, um sie zum Lesen zu vergrössern.</p>
+    <div class="lupe-leiste">
+      <p id="lupe-titel">Der Schauplatz</p>
+      <div style="display:flex;gap:8px">
+        <button class="btn" type="button" id="lupe-zurueck" aria-label="Vorherige Doppelseite">‹</button>
+        <button class="btn" type="button" id="lupe-vor" aria-label="Nächste Doppelseite">›</button>
+        <button class="btn dark" type="button" id="lupe-zu">Schliessen</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 3 · Spielprinzip -->
+  <section class="section prinzip" id="spielprinzip" aria-labelledby="sp">
+    <button class="clue" type="button" data-i="2" style="left:4%;bottom:30px" aria-label="Versteckter Buchstabe" tabindex="-1">M</button>
+    <div class="wrap center" style="text-align:center">
+      <p class="kicker">So funktioniert ein Fall</p>
+      <h2 id="sp">Lesen. Kombinieren. Entscheiden.</h2>
+      <div class="orn" aria-hidden="true"><span></span></div>
+      <ol class="schritte" style="text-align:center">
+        <li><h3>Beginne bei Abschnitt 1</h3><p>Ein Brief, ein Telegramm, ein Klopfen an der Tür, und du steckst mitten im Fall.</p></li>
+        <li><h3>Löse die Rätsel</h3><p>Deine Antwort sagt dir, bei welchem Abschnitt du weiterliest.</p></li>
+        <li><h3>Erkenne die Sackgassen</h3><p>Eine falsche Spur führt ins Leere. Dort erfährst du, wo du dich geirrt hast.</p></li>
+        <li><h3>Erhebe Anklage</h3><p>Am Ende zählt nur, was in deiner Fallakte steht. Nur eine Anklage hält stand.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4 · Probefall -->
+  <section class="section" id="probefall" aria-labelledby="pf">
+    <button class="clue" type="button" data-i="3" style="right:3%;top:36%" aria-label="Versteckter Buchstabe" tabindex="-1">M</button>
+    <div class="wrap">
+      <p class="kicker">Kostenloser Probefall · etwa zehn Minuten</p>
+      <h2 id="pf">Die Uhr des Zunftmeisters</h2>
+      <div class="orn" aria-hidden="true"><span></span></div>
+      <p class="lead">So fühlt sich ein Fall der Detektei an: Lies die Notizen, kreuz im Ermittlungsgitter an, was nicht sein kann, und wähle deine Antwort. Wer ohne Sackgasse ans Ziel kommt, wird Meisterdetektivin oder Meisterdetektiv.</p>
+      <div class="case">
+        <article class="leaf" aria-labelledby="p1">
+          <p class="sec" id="p1">Abschnitt</p>
+          <p class="secno">1</p>
+          <p class="story">Donnerstag, 11. November 1926. Martinimahl im Zunfthaus zur Laterne, direkt an der Limmat. Du bist als Gast geladen, weil Zunftmeister Konrad Rahn gern erzählt, er kenne einen Detektiv. Es gibt Gans mit Kastanien, und draussen fällt der erste Schnee des Winters.</p>
+          <p class="story">Um zehn Uhr greift Rahn nach seiner goldenen Taschenuhr, dem Geschenk der Zunft zu seinem Sechzigsten. Um neun hat er sie in der Garderobe in die Manteltasche gesteckt, weil sich die Kette im Futter verfangen hatte. Jetzt ist die Tasche leer.</p>
+          <p class="story">Zwischen neun und zehn haben nur vier Gäste den Saal verlassen: jede und jeder genau einmal und allein, jede und jeder zu einer anderen Viertelstunde und an einen anderen Ort: in die Garderobe, ins Rauchzimmer, in die Telefonkabine oder auf die Terrasse.</p>
+          <ul class="gaeste"><li><b>Frau Escher</b>, Witwe eines Seidenhändlers</li><li><b>Frau Pestalozzi</b>, Pianistin</li><li><b>Notar Bodmer</b>, Testamente und Grundbuch</li><li><b>Kunstmaler Huber</b>, malt die Zunftstube neu aus</li></ul>
+          <div class="notizbuch" id="notizbuch">
+            <p class="nb-kopf">Saaldiener Kägi, sein Büchlein</p>
+            <ol class="hinweise">
+              <li>Frau Escher stand als Erste vom Tisch auf.</li>
+              <li>Kunstmaler Huber ging nach Frau Pestalozzi hinaus. Nach ihm ging noch jemand.</li>
+              <li>Wer zuletzt hinausging, holte sich im Rauchzimmer eine Zigarre.</li>
+              <li>Frau Pestalozzi hat an diesem Abend weder geraucht noch telefoniert.</li>
+              <li>Als jemand die Terrasse betrat, war das Telefongespräch schon vorbei.</li>
+              <li>Wer auf der Terrasse war, kam mit Schnee auf dem Pelzkragen zurück. Einen Pelz trugen an diesem Abend nur die beiden Damen.</li>
+            </ol>
+          </div>
+          <p class="story" style="margin-top:18px">Kägi schwört, dass sonst niemand die Garderobe betreten hat. <b>Wer hat die Uhr des Zunftmeisters genommen?</b></p>
+          <p class="stufe">Schwierigkeit <i aria-label="zwei von fünf">◆◆◇◇◇</i></p>
+        </article>
+        <div class="instrument">
+          <p class="kicker">Dein Ermittlungsgitter</p>
+          <p>Einmal tippen: ✕ ausgeschlossen. Zweimal: ● sicher. Dreimal: wieder leer.</p>
+          <div class="gitterwrap"><table class="gitter" aria-label="Ermittlungsgitter: Personen, Zeiten und Orte"><tr><th class="ecke"></th><th scope="col" class="v"><span>21:00</span></th><th scope="col" class="v"><span>21:15</span></th><th scope="col" class="v"><span>21:30</span></th><th scope="col" class="v"><span>21:45</span></th><th scope="col" class="v o"><span>Garderobe</span></th><th scope="col" class="v o"><span>Rauchzimmer</span></th><th scope="col" class="v o"><span>Telefon</span></th><th scope="col" class="v o"><span>Terrasse</span></th></tr><tr><th scope="row">Frau Escher</th><td><button type="button" class="z" data-r="Frau Escher" data-c="21:00" aria-label="Frau Escher · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Frau Escher" data-c="21:15" aria-label="Frau Escher · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Frau Escher" data-c="21:30" aria-label="Frau Escher · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Frau Escher" data-c="21:45" aria-label="Frau Escher · 21:45: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Escher" data-c="Garderobe" aria-label="Frau Escher · Garderobe: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Escher" data-c="Rauchzimmer" aria-label="Frau Escher · Rauchzimmer: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Escher" data-c="Telefon" aria-label="Frau Escher · Telefon: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Escher" data-c="Terrasse" aria-label="Frau Escher · Terrasse: offen"></button></td></tr><tr><th scope="row">Frau Pestalozzi</th><td><button type="button" class="z" data-r="Frau Pestalozzi" data-c="21:00" aria-label="Frau Pestalozzi · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Frau Pestalozzi" data-c="21:15" aria-label="Frau Pestalozzi · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Frau Pestalozzi" data-c="21:30" aria-label="Frau Pestalozzi · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Frau Pestalozzi" data-c="21:45" aria-label="Frau Pestalozzi · 21:45: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Pestalozzi" data-c="Garderobe" aria-label="Frau Pestalozzi · Garderobe: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Pestalozzi" data-c="Rauchzimmer" aria-label="Frau Pestalozzi · Rauchzimmer: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Pestalozzi" data-c="Telefon" aria-label="Frau Pestalozzi · Telefon: offen"></button></td><td class="o"><button type="button" class="z" data-r="Frau Pestalozzi" data-c="Terrasse" aria-label="Frau Pestalozzi · Terrasse: offen"></button></td></tr><tr><th scope="row">Notar Bodmer</th><td><button type="button" class="z" data-r="Notar Bodmer" data-c="21:00" aria-label="Notar Bodmer · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Notar Bodmer" data-c="21:15" aria-label="Notar Bodmer · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Notar Bodmer" data-c="21:30" aria-label="Notar Bodmer · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Notar Bodmer" data-c="21:45" aria-label="Notar Bodmer · 21:45: offen"></button></td><td class="o"><button type="button" class="z" data-r="Notar Bodmer" data-c="Garderobe" aria-label="Notar Bodmer · Garderobe: offen"></button></td><td class="o"><button type="button" class="z" data-r="Notar Bodmer" data-c="Rauchzimmer" aria-label="Notar Bodmer · Rauchzimmer: offen"></button></td><td class="o"><button type="button" class="z" data-r="Notar Bodmer" data-c="Telefon" aria-label="Notar Bodmer · Telefon: offen"></button></td><td class="o"><button type="button" class="z" data-r="Notar Bodmer" data-c="Terrasse" aria-label="Notar Bodmer · Terrasse: offen"></button></td></tr><tr><th scope="row">Kunstmaler Huber</th><td><button type="button" class="z" data-r="Kunstmaler Huber" data-c="21:00" aria-label="Kunstmaler Huber · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Kunstmaler Huber" data-c="21:15" aria-label="Kunstmaler Huber · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Kunstmaler Huber" data-c="21:30" aria-label="Kunstmaler Huber · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Kunstmaler Huber" data-c="21:45" aria-label="Kunstmaler Huber · 21:45: offen"></button></td><td class="o"><button type="button" class="z" data-r="Kunstmaler Huber" data-c="Garderobe" aria-label="Kunstmaler Huber · Garderobe: offen"></button></td><td class="o"><button type="button" class="z" data-r="Kunstmaler Huber" data-c="Rauchzimmer" aria-label="Kunstmaler Huber · Rauchzimmer: offen"></button></td><td class="o"><button type="button" class="z" data-r="Kunstmaler Huber" data-c="Telefon" aria-label="Kunstmaler Huber · Telefon: offen"></button></td><td class="o"><button type="button" class="z" data-r="Kunstmaler Huber" data-c="Terrasse" aria-label="Kunstmaler Huber · Terrasse: offen"></button></td></tr><tr class="block2 b2"><th scope="row">Garderobe</th><td><button type="button" class="z" data-r="Garderobe" data-c="21:00" aria-label="Garderobe · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Garderobe" data-c="21:15" aria-label="Garderobe · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Garderobe" data-c="21:30" aria-label="Garderobe · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Garderobe" data-c="21:45" aria-label="Garderobe · 21:45: offen"></button></td><td class="leer" colspan="4"></td></tr><tr class="b2"><th scope="row">Rauchzimmer</th><td><button type="button" class="z" data-r="Rauchzimmer" data-c="21:00" aria-label="Rauchzimmer · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Rauchzimmer" data-c="21:15" aria-label="Rauchzimmer · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Rauchzimmer" data-c="21:30" aria-label="Rauchzimmer · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Rauchzimmer" data-c="21:45" aria-label="Rauchzimmer · 21:45: offen"></button></td><td class="leer" colspan="4"></td></tr><tr class="b2"><th scope="row">Telefon</th><td><button type="button" class="z" data-r="Telefon" data-c="21:00" aria-label="Telefon · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Telefon" data-c="21:15" aria-label="Telefon · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Telefon" data-c="21:30" aria-label="Telefon · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Telefon" data-c="21:45" aria-label="Telefon · 21:45: offen"></button></td><td class="leer" colspan="4"></td></tr><tr class="b2"><th scope="row">Terrasse</th><td><button type="button" class="z" data-r="Terrasse" data-c="21:00" aria-label="Terrasse · 21:00: offen"></button></td><td><button type="button" class="z" data-r="Terrasse" data-c="21:15" aria-label="Terrasse · 21:15: offen"></button></td><td><button type="button" class="z" data-r="Terrasse" data-c="21:30" aria-label="Terrasse · 21:30: offen"></button></td><td><button type="button" class="z" data-r="Terrasse" data-c="21:45" aria-label="Terrasse · 21:45: offen"></button></td><td class="leer" colspan="4"></td></tr></table></div>
+          <div class="gridtools"><button class="btn" type="button" id="tipbtn" aria-expanded="false" aria-controls="tip">Festgefahren? Tipp</button><button class="btn" type="button" id="gitterleer">Gitter leeren</button></div>
+          <p class="tip" id="tip" hidden></p>
+        </div>
+      </div>
+      <div class="answers" id="answers" role="group" aria-label="Deine Antwort">
+        <h3>Deine Antwort</h3>
+        <div class="ans"><b>A</b><span>Frau Escher</span><button class="go" type="button" data-go="7"><small>WEITER BEI</small><span>7</span></button></div>
+        <div class="ans"><b>B</b><span>Notar Bodmer</span><button class="go" type="button" data-go="4"><small>WEITER BEI</small><span>4</span></button></div>
+        <div class="ans"><b>C</b><span>Kunstmaler Huber</span><button class="go" type="button" data-go="12"><small>WEITER BEI</small><span>12</span></button></div>
+        <div class="ans"><b>D</b><span>Frau Pestalozzi</span><button class="go" type="button" data-go="9"><small>WEITER BEI</small><span>9</span></button></div>
+      </div>
+      <p class="trapcount" id="traps">Sackgassen in diesem Fall: 0</p>
+      <div class="flip" id="flip" hidden aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- 5 · Die Welt der Detektei -->
+  <section class="section" id="detektei" aria-labelledby="dt">
+    <button class="clue" type="button" data-i="4" style="left:52%;top:34px" aria-label="Versteckter Buchstabe" tabindex="-1">A</button>
+    <div class="wrap">
+      <p class="kicker">Die Detektei</p>
+      <h2 id="dt">Eine Treppe hoch, an der Limmat</h2>
+      <div class="orn" aria-hidden="true"><span></span></div>
+      <div class="office">
+        <div class="scene" id="scene">
+          <div class="scene-inner" id="scene-inner">
+            <img src="img/buero.jpg" alt="Illustration: das Büro der Detektei im Winter, mit Schreibtisch, Aktenregal, Mantel am Garderobenständer und Blick durch die Fensterläden über die Limmat zum Grossmünster" width="1100" height="1463">
+            <button class="spot" type="button" id="spot0" data-n="0" aria-pressed="false" aria-label="Der Blick" style="left:72.0%;top:31.0%">1</button><button class="spot" type="button" id="spot1" data-n="1" aria-pressed="false" aria-label="Die Fensterläden" style="left:85.5%;top:22.0%">2</button><button class="spot" type="button" id="spot2" data-n="2" aria-pressed="false" aria-label="Der Kaffee" style="left:47.0%;top:56.5%">3</button><button class="spot" type="button" id="spot3" data-n="3" aria-pressed="false" aria-label="Papier und Bleistift" style="left:68.0%;top:60.5%">4</button><button class="spot" type="button" id="spot4" data-n="4" aria-pressed="false" aria-label="Die Schublade" style="left:58.5%;top:67.5%">5</button><button class="spot" type="button" id="spot5" data-n="5" aria-pressed="false" aria-label="Der Mantel" style="left:26.0%;top:40.0%">6</button><button class="spot" type="button" id="spot6" data-n="6" aria-pressed="false" aria-label="Der Schirm" style="left:17.5%;top:58.0%">7</button><button class="spot" type="button" id="spot7" data-n="7" aria-pressed="false" aria-label="Die Akten" style="left:8.0%;top:26.0%">8</button><button class="spot" type="button" id="spot8" data-n="8" aria-pressed="false" aria-label="Der Stuhl" style="left:30.0%;top:80.0%">9</button>
+          </div>
+        </div>
+        <div>
+          <p class="story">Unten an der Tür hängt ein Messingschild: Detektei Limmat. Dahinter gibt es kein Vorzimmer und keine Sekretärin. Nur einen Schreibtisch, ein Fenster zum Fluss und jemanden, der genau hinschaut. Das bist du.</p>
+          <p>Die Fälle kommen mit der Post, mit einem Telegramm oder mit Schritten auf der Treppe. Sie führen an Orte, aus denen niemand so schnell wegkommt. Und sie enden immer hier, am Schreibtisch, wenn draussen St.&nbsp;Peter die Stunde schlägt.</p>
+          <div class="notiz" id="notiz" aria-live="polite"><h3>Sieh dich um.</h3><p>Neun Dinge in diesem Büro haben etwas zu erzählen. Tippe auf die goldenen Punkte im Bild.</p></div>
+          <p class="spuren" id="spuren">0 von 9 untersucht</p>
+          <div class="werkzeug">
+            <button class="btn dark" type="button" id="lampe">Licht löschen und suchen</button>
+          </div>
+          <div class="schublade" id="schublade" hidden aria-live="polite">
+            <h3>Die Schublade ist offen.</h3>
+            <p>Sechs Buchstaben, ein Wort: LIMMAT. Der Schlüssel passt. Darin liegt nur ein Zettel, in deiner eigenen Schrift: «Dasselbe Wort bricht auch das Siegel der nächsten Akte.»</p>
+            <a class="btn primary" href="#band-2">Zur versiegelten Akte</a>
+          </div>
+          <dl class="steck">
+            <div><dt>Adresse</dt><dd>an der Limmat, Zürich, eine Treppe hoch</dd></div>
+            <div><dt>Personal</dt><dd>du</dd></div>
+            <div><dt>Sprechstunde</dt><dd>wenn es klopft</dd></div>
+          </dl>
+          <div class="uhr">
+            <svg viewBox="0 0 200 200" role="img" aria-label="Uhr mit der aktuellen Zeit in Zürich"><circle class="blatt" cx="100" cy="100" r="94"/><line class="strich" x1="100" y1="12" x2="100" y2="28" transform="rotate(0 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(30 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(60 100 100)"/><line class="strich" x1="100" y1="12" x2="100" y2="28" transform="rotate(90 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(120 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(150 100 100)"/><line class="strich" x1="100" y1="12" x2="100" y2="28" transform="rotate(180 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(210 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(240 100 100)"/><line class="strich" x1="100" y1="12" x2="100" y2="28" transform="rotate(270 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(300 100 100)"/><line class="strich" x1="100" y1="14" x2="100" y2="22" transform="rotate(330 100 100)"/>
+              <line class="zeiger" id="zh" x1="100" y1="100" x2="100" y2="52" stroke-width="6"/><line class="zeiger" id="zm" x1="100" y1="100" x2="100" y2="26" stroke-width="3.5"/><circle class="mitte" cx="100" cy="100" r="6"/></svg>
+            <div><b id="zeit">–:–</b><small>jetzt in Zürich</small><button class="btn" type="button" id="schlag">St.&nbsp;Peter schlagen lassen</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pinnkopf" id="personen">
+        <p class="kicker">Band 1 · Die Pinnwand</p>
+        <h3 style="font-size:clamp(1.8rem,3.4vw,2.4rem);margin-top:8px">Acht Menschen in einem eingeschneiten Hotel</h3>
+        <p class="lead" style="margin-top:10px">Hier steht nur, was alle wissen. Tippe auf ein Foto: Die Karte dreht sich um, du siehst die Akte und die Beziehungen dieser Person und kannst deinen eigenen Verdacht vergeben.</p>
+      </div>
+      <div class="board" id="board">
+        <div class="cards" id="cards"></div>
+      </div>
+      <p class="board-status" id="bstatus" aria-live="polite">Noch keine Akte geöffnet.</p>
+      <p class="quote">«Beobachten Sie meine Tischgäste. Einer von ihnen wünscht mir den Tod.»<small>Viktor Steinhauser, Freitag, 14. Januar 1927</small></p>
+    </div>
+  </section>
+
+  <!-- 6 · Akte 2 -->
+  <section class="section akte2" id="band-2" aria-labelledby="a2">
+    <div class="wrap">
+      <div>
+        <p class="kicker">Band 2 · In Vorbereitung</p>
+        <h2 id="a2">Die nächste Akte ist versiegelt.</h2>
+        <div class="orn" aria-hidden="true"><span></span></div>
+        <p>Das Siegel öffnet sich nur mit einem Kennwort. Es liegt auf dieser Seite, aber nur im Dunkeln: sechs Buchstaben, verstreut über alle Abschnitte.</p>
+        <p>Lösch das Licht, such sie mit der Taschenlampe und brich dann das Siegel.</p>
+      </div>
+      <div class="mappe2" id="mappe2">
+        <span class="tab">AKTE 2 · ZÜRICH</span>
+        <div id="zu">
+          <h3>Streng vertraulich</h3>
+          <p class="typed">Nur für Ermittlerinnen und Ermittler, die im Dunkeln genau hinsehen.</p>
+          <button class="siegel" type="button" id="siegel" aria-label="Siegel brechen">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs><radialGradient id="wachs" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#b14a55"/><stop offset="0.6" stop-color="#7a2a33"/><stop offset="1" stop-color="#4f161d"/></radialGradient></defs>
+              <path d="M60 6c9 0 13 6 21 8s15 1 19 9 1 13 4 21 9 12 7 21-9 11-12 18-1 15-9 20-14 1-22 3-13 8-21 6-11-8-18-12-15-3-19-11 1-14-2-22-9-13-6-21 10-10 14-17 3-15 11-19 13 0 21-3z" fill="url(#wachs)"/>
+              <circle cx="60" cy="60" r="36" fill="none" stroke="#5b1b22" stroke-width="2" opacity="0.7"/>
+              <circle cx="60" cy="60" r="31" fill="none" stroke="#c2707a" stroke-width="1" opacity="0.5"/>
+              <text x="60" y="71" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="32" font-weight="600" fill="#e8b9be" opacity="0.9">DL</text>
+            </svg>
+          </button>
+          <p class="typed" style="text-align:center;margin:0">Siegel brechen</p>
+          <form class="pruefung" id="pruefung" hidden>
+            <label for="kennwort">Welches Wort ergeben die sechs versteckten Buchstaben?</label>
+            <div class="zeile"><input id="kennwort" name="kennwort" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Kennwort"><button class="btn primary" type="submit">Akte öffnen</button></div>
+            <p class="msg" id="msg" aria-live="polite"></p>
+            <p class="klein">Noch nicht gefunden? <button class="linkbtn" type="button" id="lights3">Licht löschen und suchen</button></p>
+          </form>
+        </div>
+        <div class="offen" id="offen" hidden>
+          <h3>Gut gesucht.</h3>
+          <p>Zürich, vier Jahre später. Ein Platz voller Banken, Schliessfächer und sehr viel Gold. Und irgendwo darin ein Fehler, den nur bemerkt, wer genau hinsieht.</p>
+          <p class="klein">Mehr verrät die Detektei noch nicht. Wer im Ermittlerkreis ist, erfährt als Erstes, wann sich die Akte öffnet.</p>
+          <a class="btn primary" href="#ermittlerkreis" style="margin-top:12px">In den Ermittlerkreis</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · Ermittlerkreis -->
+  <section class="section kreis" id="ermittlerkreis" aria-labelledby="ek">
+    <button class="clue" type="button" data-i="5" style="right:5%;bottom:34px" aria-label="Versteckter Buchstabe" tabindex="-1">T</button>
+    <div class="wrap">
+      <div class="kreis-kopf">
+        <div>
+          <p class="kicker">Der Ermittlerkreis</p>
+          <h2 id="ek">Hilf mit, den nächsten Fall noch besser zu machen.</h2>
+          <div class="orn" aria-hidden="true"><span></span></div>
+          <p class="lead">Jeder Fall der Detektei wird mit den Rückmeldungen seiner Leserinnen und Leser besser. Erzähl, wie es dir ergangen ist, und sei dabei, wenn die nächste Akte aufgeht.</p>
+        </div>
+        <svg class="seal" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="ring" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs>
+          <circle cx="100" cy="100" r="96" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="64" stroke-width="1"/>
+          <g class="ring"><text><textPath href="#ring">DETEKTEI LIMMAT · ZÜRICH · RÄTSELKRIMIS ·</textPath></text></g>
+          <image href="img/detektei.svg" x="58" y="58" width="84" height="84"/>
+        </svg>
+      </div>
+      <div class="kreis-grid">
+        <div class="tafel2">
+          <p class="kicker">Band 1 gelöst?</p>
+          <h3>Gib deinen Fallbericht ab.</h3>
+          <p>Fünf kurze Blätter, fast alles mit einem Tipp: dein Urteil, dein Glanzstück und dein Sorgenkind unter den Rätseln, und was der nächste Band besser machen soll.</p>
+          <ul><li>dauert etwa fünf Minuten</li><li>am Ende gibt es deinen Ermittlerausweis</li><li>jede Antwort fliesst in Band 2 ein</li></ul>
+          <a class="btn primary" href="valtrina/index.html">Fallbericht abgeben</a>
+        </div>
+        <div class="tafel2">
+          <p class="kicker">Neuigkeiten aus der Detektei</p>
+          <h3>Tritt dem Ermittlerkreis bei.</h3>
+          <p>Du bekommst eine Nachricht, wenn Band 2 erscheint, und ab und zu ein kleines Bonusrätsel. Nicht öfter, versprochen.</p>
+          <form class="beitritt" id="beitritt" novalidate>
+            <label class="sr" for="kreis-mail">E-Mail-Adresse</label>
+            <input type="email" id="kreis-mail" name="email" autocomplete="email" placeholder="deine E-Mail-Adresse" required>
+            <label class="sr" for="kreis-name">Deckname</label>
+            <input type="text" id="kreis-name" name="deckname" maxlength="40" placeholder="Deckname (freiwillig)">
+            <label class="ok"><input type="checkbox" id="kreis-ok" name="einwilligung"> Ich bin einverstanden, dass die Detektei Limmat mir schreibt. Die Adresse wird nicht weitergegeben, und ich kann mich jederzeit abmelden.</label>
+            <div class="zeile"><button class="btn dark" type="submit">Beitreten</button></div>
+            <p class="msg" id="kreis-msg" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div><h4>Detektei Limmat</h4><p class="small">Rätselkrimis von Daniel Loher. Die Detektei Limmat, das Grandhotel Valtrina und alle Personen sind frei erfunden.</p></div>
+    <div><h4>Kontakt zu Band 1</h4><p class="mail">grandhotelvaltrina@detektei-limmat.ch</p></div>
+    <!-- Impressum: sobald eine c/o- oder Domiziladresse vorhanden ist, hier die Zeile «Schweiz» ersetzen -->
+    <div><h4>Impressum</h4><p>Daniel Loher<br>Schweiz<br><span class="mail">info@detektei-limmat.ch</span></p></div>
+    <div><h4>Datenschutz</h4><p class="small">Diese Website verwendet keine Cookies und kein Tracking. Deine Angaben werden nicht weitergegeben.</p></div>
+  </div>
+</footer>
+
+<script>
+/* ===== Einstellungen =====
+   Mit einem kostenlosen Zugangsschluessel von web3forms.com landen Beitritte zum Ermittlerkreis direkt im Postfach.
+   Ohne Schluessel zeigt die Seite eine vorbereitete E-Mail zum Kopieren. */
+const EINSTELLUNGEN = { web3formsSchluessel: "", empfaenger: "info@detektei-limmat.ch" };
+
+const ruhig = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const speicher = {
+  lies(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  schreib(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const ton = {
+  ctx: null, out: null,
+  async an() { try { this.ctx = this.ctx || new (window.AudioContext || window.webkitAudioContext)(); await this.ctx.resume(); } catch (e) { this.ctx = null; } return this.ctx; },
+  // Ausgang mit Kirchenhall: ein Teil des Klangs laeuft durch einen langen, weichen Nachhall
+  kette() {
+    const c = this.ctx; if (this.out && this.out.context === c) return this.out;
+    const comp = c.createDynamicsCompressor(); comp.threshold.value = -16; comp.ratio.value = 4; comp.connect(c.destination);
+    const dry = c.createGain(); dry.gain.value = 0.85; dry.connect(comp);
+    const len = Math.floor(c.sampleRate * 3.4), ir = c.createBuffer(2, len, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.8); }
+    const conv = c.createConvolver(); conv.buffer = ir; const wet = c.createGain(); wet.gain.value = 0.22; conv.connect(wet).connect(comp);
+    const bus = c.createGain(); bus.connect(dry); bus.connect(conv); this.out = bus; return bus;
+  },
+  // Eine Glocke klingt nicht in reinen Obertoenen: Unterton, Prime, Mollterz, Quinte, Oktave und helle Teiltoene,
+  // die tiefen klingen lange nach, die hellen verklingen schnell. Zwei leicht verstimmte Stimmen ergeben die Schwebung.
+  glocke(t0, laut, hoch) {
+    const c = this.ctx; if (!c) return; const out = this.kette(), f0 = hoch || 146.8, L = laut || 1;
+    const T = [[0.5, 0.42, 10], [1, 0.55, 7.5], [1.19, 0.42, 5.5], [1.5, 0.2, 4], [2, 0.5, 3.6], [2.5, 0.16, 2.4], [3, 0.14, 1.9], [4.02, 0.1, 1.2], [5.38, 0.06, 0.7], [6.75, 0.04, 0.45]];
+    T.forEach(([m, g, d], k) => {
+      for (const det of (k < 3 ? [-0.35, 0.35] : [0])) {
+        const o = c.createOscillator(), v = c.createGain(), a = 0.2 * L * g * (k < 3 ? 0.6 : 1);
+        o.frequency.value = f0 * m + det;
+        v.gain.setValueAtTime(0.0001, t0); v.gain.exponentialRampToValueAtTime(a, t0 + 0.006);
+        v.gain.exponentialRampToValueAtTime(a * 0.35, t0 + d * 0.22); v.gain.exponentialRampToValueAtTime(0.0001, t0 + d);
+        o.connect(v).connect(out); o.start(t0); o.stop(t0 + d + 0.1);
+      }
+    });
+    // Anschlag des Kloeppels
+    const n = c.createBuffer(1, Math.floor(c.sampleRate * 0.05), c.sampleRate), dd = n.getChannelData(0);
+    for (let i = 0; i < dd.length; i++) dd[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / dd.length, 4);
+    const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+    f.type = "bandpass"; f.frequency.value = 1100; f.Q.value = 1.2; g.gain.value = 0.25 * L; s.buffer = n; s.connect(f).connect(g).connect(out); s.start(t0);
+  }
+};
+const warte = ms => new Promise(r => setTimeout(r, ms));
+async function schlaege(n, el) {
+  await ton.an();
+  for (let i = 0; i < n; i++) {
+    if (ton.ctx) ton.glocke(ton.ctx.currentTime);
+    if (el) { el.classList.remove("ding"); void el.offsetWidth; el.classList.add("ding"); }
+    await warte(2400);
+  }
+}
+function toast(t) {
+  const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role", "status"); el.textContent = t;
+  document.body.append(el); setTimeout(() => el.remove(), 3600);
+}
+
+/* ---------- Schneefall im Titel ---------- */
+(() => {
+  const c = document.getElementById("snow"), x = c.getContext("2d");
+  let w, h, flakes = [], run = true;
+  function size() {
+    const r = c.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2);
+    w = r.width; h = r.height; c.width = w * d; c.height = h * d; x.setTransform(d, 0, 0, d, 0, 0);
+    flakes = Array.from({ length: Math.round(w * h / 14000) }, () => ({ x: Math.random() * w, y: Math.random() * h, r: 0.5 + Math.random() * 1.5, s: 0.2 + Math.random() * 0.6, p: Math.random() * 6 }));
+  }
+  function draw(t) {
+    x.clearRect(0, 0, w, h); x.fillStyle = "rgba(243,236,221,0.7)";
+    for (const f of flakes) {
+      if (!ruhig) { f.y += f.s; f.x += Math.sin(t / 1600 + f.p) * 0.3; if (f.y > h + 4) { f.y = -4; f.x = Math.random() * w; } }
+      x.beginPath(); x.arc(f.x, f.y, f.r, 0, 7); x.fill();
+    }
+    if (run && !ruhig) requestAnimationFrame(draw);
+  }
+  size(); requestAnimationFrame(draw);
+  addEventListener("resize", () => { size(); if (ruhig) draw(0); });
+  new IntersectionObserver(([e]) => { const was = run; run = e.isIntersecting; if (run && !was && !ruhig) requestAnimationFrame(draw); }).observe(c);
+})();
+
+/* ---------- Blick ins Buch ---------- */
+(() => {
+  const dlg = document.getElementById("seitenlupe"), bild = document.getElementById("lupe-bild"), titel = document.getElementById("lupe-titel");
+  const S = [...document.querySelectorAll(".spread")].map(b => [b.querySelector("img").getAttribute("src"), b.querySelector("b").textContent, b.querySelector("img").alt, b.dataset.gross]);
+  let i = 0;
+  const nav = [document.getElementById("lupe-vor"), document.getElementById("lupe-zurueck")];
+  const box = document.getElementById("bildbox");
+  // Vergrössern nur so weit, wie das Bild scharf bleibt (höchstens ~15 % über 1:1 Bildschirmpixel)
+  function zoomBreite() {
+    const b = box.clientWidth, dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const maxF = b < 700 ? 3 : 2.3, scharf = (bild.naturalWidth || 1800) * 1.15 / dpr;
+    return Math.round(Math.max(b * 1.6, Math.min(b * maxF, scharf)));
+  }
+  function setzeZoom(fx, fy) {
+    bild.style.width = zoomBreite() + "px";
+    requestAnimationFrame(() => { box.scrollLeft = fx * bild.offsetWidth - box.clientWidth / 2; box.scrollTop = fy * bild.offsetHeight - box.clientHeight / 2; });
+  }
+  function laden(klein, gross) {
+    bild.src = klein; bild.classList.remove("gross"); bild.style.width = "";
+    if (!gross) return;
+    const vorab = new Image(); vorab.decoding = "async";
+    vorab.onload = () => {
+      if (bild.getAttribute("src") !== klein) return;
+      const z = bild.classList.contains("gross"), fx = (box.scrollLeft + box.clientWidth / 2) / (bild.offsetWidth || 1), fy = (box.scrollTop + box.clientHeight / 2) / (bild.offsetHeight || 1);
+      bild.src = gross; if (z) bild.decode ? bild.decode().then(() => setzeZoom(fx, fy), () => setzeZoom(fx, fy)) : setzeZoom(fx, fy);
+    };
+    vorab.src = gross;
+  }
+  function zeig(n) { i = (n + S.length) % S.length; laden(S[i][0], S[i][3]); bild.alt = S[i][2]; titel.textContent = S[i][1]; nav.forEach(x => x.hidden = false); }
+  // Auch das Hotelbild lässt sich gross ansehen (wichtig auf dem Handy, wo die Lupe fehlt)
+  const hotel = document.querySelector("#lupenbild img");
+  hotel.style.cursor = "zoom-in";
+  hotel.addEventListener("click", () => {
+    laden(hotel.getAttribute("src")); bild.alt = hotel.alt; titel.textContent = "Das Grandhotel Valtrina";
+    nav.forEach(x => x.hidden = true); i = -1;
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  });
+  bild.addEventListener("click", e => {
+    const r = bild.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    bild.classList.toggle("gross");
+    if (bild.classList.contains("gross")) setzeZoom(fx, fy); else bild.style.width = "";
+  });
+  document.querySelectorAll(".spread").forEach(b => b.addEventListener("click", () => {
+    zeig(+b.dataset.i);
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  }));
+  document.getElementById("lupe-vor").addEventListener("click", () => zeig(i + 1));
+  document.getElementById("lupe-zurueck").addEventListener("click", () => zeig(i - 1));
+  document.getElementById("lupe-zu").addEventListener("click", () => dlg.close ? dlg.close() : dlg.removeAttribute("open"));
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener("keydown", e => { if (i < 0) return; if (e.key === "ArrowRight") zeig(i + 1); if (e.key === "ArrowLeft") zeig(i - 1); });
+})();
+
+/* ---------- Lupe über dem Hotel ---------- */
+(() => {
+  const box = document.getElementById("lupenbild"), lupe = document.getElementById("lupe"), img = box.querySelector("img"), Z = 2.3;
+  lupe.style.backgroundImage = `url(${img.getAttribute("src")})`;
+  box.addEventListener("pointermove", e => {
+    if (e.pointerType === "touch") return;
+    const r = box.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, d = lupe.offsetWidth;
+    lupe.style.left = (x - d / 2) + "px"; lupe.style.top = (y - d / 2) + "px";
+    lupe.style.backgroundSize = `${r.width * Z}px ${r.height * Z}px`;
+    lupe.style.backgroundPosition = `${-(x * Z - d / 2)}px ${-(y * Z - d / 2)}px`;
+    box.classList.add("aktiv");
+  });
+  box.addEventListener("pointerleave", () => box.classList.remove("aktiv"));
+})();
+
+/* ---------- Schreibmaschine: Rätsel 9 ---------- */
+(() => {
+  const el = document.getElementById("cipher"), text = el.textContent;
+  let ctx, busy = false;
+  function klack(laut) {
+    if (!ctx) return;
+    const n = ctx.createBuffer(1, ctx.sampleRate * 0.03, ctx.sampleRate), d = n.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 6);
+    const s = ctx.createBufferSource(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+    f.type = "bandpass"; f.frequency.value = 1800 + Math.random() * 900; g.gain.value = laut;
+    s.buffer = n; s.connect(f).connect(g).connect(ctx.destination); s.start();
+  }
+  function klingel() {
+    if (!ctx) return;
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.frequency.value = 2100; g.gain.setValueAtTime(0.18, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+    o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 0.8);
+  }
+  document.getElementById("type9").addEventListener("click", async () => {
+    if (busy) return; busy = true;
+    ctx = await ton.an();
+    if (ruhig) { el.textContent = text; busy = false; return; }
+    el.textContent = ""; const caret = document.createElement("span"); caret.className = "caret";
+    for (const ch of text) {
+      if (ch === "\n") { klingel(); await warte(420); }
+      el.textContent += ch; el.append(caret);
+      if (ch !== " " && ch !== "\n") klack(0.9);
+      await warte(55 + Math.random() * 90);
+    }
+    caret.remove(); el.textContent = text; busy = false;
+  });
+})();
+
+/* ---------- Probefall: Die Uhr des Zunftmeisters (Ermittlungsgitter) ---------- */
+(() => {
+  const zellen = [...document.querySelectorAll(".gitter .z")];
+  const ZEICHEN = ["", "✕", "●"], WORT = ["offen", "ausgeschlossen", "sicher"];
+  let stand = speicher.lies("dl-gitter", {});
+  function zeige(b) {
+    const k = b.dataset.r + "|" + b.dataset.c, v = stand[k] || 0;
+    b.textContent = ZEICHEN[v]; b.dataset.v = v;
+    b.setAttribute("aria-label", `${b.dataset.r} · ${b.dataset.c}: ${WORT[v]}`);
+  }
+  zellen.forEach(b => { zeige(b); b.addEventListener("click", () => {
+    const k = b.dataset.r + "|" + b.dataset.c; stand[k] = ((stand[k] || 0) + 1) % 3;
+    if (!stand[k]) delete stand[k]; speicher.schreib("dl-gitter", stand); zeige(b);
+    if (ton.ctx && stand[k] === 2) ton.glocke(ton.ctx.currentTime, 0.12, 784);
+  }); });
+  document.getElementById("gitterleer").addEventListener("click", () => { stand = {}; speicher.schreib("dl-gitter", stand); zellen.forEach(zeige); });
+
+  const TIPPS = ["Beginne mit den Zeiten. Hinweis 1 legt die erste Viertelstunde fest, Hinweis 2 die drei anderen.",
+    "Jetzt die Orte. Hinweis 3 verrät, wer im Rauchzimmer war, Hinweis 6 schränkt die Terrasse auf zwei Personen ein. Und frag dich: Wer könnte vor der Terrasse telefoniert haben, wenn die Terrasse ganz am Anfang besucht worden wäre?"];
+  const tipBtn = document.getElementById("tipbtn"), tip = document.getElementById("tip"); let stufe = 0;
+  tipBtn.addEventListener("click", () => {
+    tip.textContent = TIPPS[Math.min(stufe, 1)]; tip.hidden = false; tipBtn.setAttribute("aria-expanded", "true");
+    stufe++; tipBtn.textContent = stufe > 1 ? "Tipp" : "Noch ein Tipp";
+  });
+
+  const zurueck = '<div class="actions"><button class="btn primary" type="button" data-back>Zurück zum Fall</button></div>';
+  const leer = "<p><i>Diese Spur führt ins Leere. Geh zurück zu Abschnitt 1 und löse den Fall noch einmal.</i></p>";
+  const ABS = {
+    12: { ok: true, html: `<p>«Herr Huber», sagst du.</p>
+      <p>Der Kunstmaler lacht, dann nicht mehr. Kägis Büchlein ist eindeutig: Frau Escher ging um neun als Erste hinaus und telefonierte, denn die Terrasse besuchte erst später jemand. Frau Pestalozzi folgte um Viertel nach neun auf die Terrasse und brachte Schnee auf dem Pelz zurück. Um Viertel vor zehn holte sich Notar Bodmer seine Zigarre. Und um halb zehn ging Kunstmaler Huber hinaus: in die Garderobe.</p>
+      <p>In seinem Skizzenbuch, zwischen zwei Zeichnungen vom Grossmünster, liegt die goldene Uhr. «Ich wollte sie nur abzeichnen», sagt er leise. «Das Zifferblatt mit dem Zunftwappen. Für das Bild in der Zunftstube. Ich hätte sie zurückgelegt.»</p>
+      <p>Rahn klappt die Uhr auf und hält sie ans Ohr. «Sie geht noch», sagt er. Dann, nach einer langen Pause: «Das Bild will ich trotzdem sehen.»</p>
+      <p><b>Fall gelöst.</b> Im ersten Band der Detektei Limmat warten 18 Rätsel, drei davon mit genau so einem Ermittlungsgitter. Und sie werden schwieriger.</p>
+      <p class="rangzeile" id="rangzeile"></p>
+      <div class="actions"><a class="btn primary" href="#band-1">Zum ersten echten Fall</a><button class="btn" type="button" data-reset>Nochmals spielen</button></div>` },
+    7: { html: `<p>Frau Escher? Sie stand als Erste auf, um neun. Wer um neun hinausging, kann nicht auf der Terrasse gewesen sein, denn als jemand die Terrasse betrat, war das Telefongespräch schon vorbei. Wohin ging sie also?</p>` + leer + zurueck },
+    4: { html: `<p>Notar Bodmer? Er ging als Letzter hinaus, um Viertel vor zehn, und kam mit einer Zigarre zurück. Das Rauchzimmer und die Garderobe liegen nicht am selben Ort.</p>` + leer + zurueck },
+    9: { html: `<p>Frau Pestalozzi? Sie hat weder geraucht noch telefoniert. Und wer kam an diesem Abend mit Schnee auf dem Pelzkragen zurück? Prüf noch einmal, ob die Terrasse nach dem Telefongespräch besucht wurde.</p>` + leer + zurueck }
+  };
+  const rang = n => n <= 0 ? "Meisterdetektivin / Meisterdetektiv" : n === 1 ? "Kommissarin / Kommissar" : "Anwärterin / Anwärter";
+  let fallen = 0;
+  const flip = document.getElementById("flip"), traps = document.getElementById("traps");
+  document.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => {
+    const n = b.dataset.go, a = ABS[n];
+    if (!a.ok) { fallen++; traps.textContent = `Sackgassen in diesem Fall: ${fallen}`; }
+    flip.innerHTML = `<article class="leaf turned"><p class="sec">Abschnitt</p><p class="secno">${n}</p>${a.html}</article>`;
+    if (a.ok) { document.getElementById("rangzeile").textContent = `Sackgassen: ${fallen} · Dein Rang: ${rang(fallen)}`; if (!ruhig) schlaege(1, null); }
+    flip.hidden = false; flip.scrollIntoView({ behavior: ruhig ? "auto" : "smooth", block: "start" });
+  }));
+  flip.addEventListener("click", e => {
+    if (e.target.closest("[data-back]")) { flip.hidden = true; document.getElementById("probefall").scrollIntoView({ behavior: ruhig ? "auto" : "smooth" }); }
+    if (e.target.closest("[data-reset]")) { flip.hidden = true; fallen = 0; traps.textContent = "Sackgassen in diesem Fall: 0"; stand = {}; speicher.schreib("dl-gitter", stand); zellen.forEach(zeige); tip.hidden = true; stufe = 0; tipBtn.textContent = "Festgefahren? Tipp"; document.getElementById("probefall").scrollIntoView({ behavior: ruhig ? "auto" : "smooth" }); }
+  });
+})();
+
+/* ---------- Stromausfall: Taschenlampe ueber die ganze Seite ---------- */
+const nacht = (() => {
+  const WORT = "LIMMAT";
+  const night = document.getElementById("night"), slots = [...document.querySelectorAll("#slots span")];
+  const got = new Set(speicher.lies("dl-funde", []));
+  const btn = document.getElementById("lights");
+  function fuelle() { slots.forEach((s, i) => { s.textContent = got.has(i) ? WORT[i] : ""; }); document.querySelectorAll(".clue").forEach(c => c.classList.toggle("got", got.has(+c.dataset.i))); }
+  function licht(aus) {
+    document.body.classList.toggle("nacht", aus); btn.setAttribute("aria-pressed", String(aus));
+    btn.setAttribute("aria-label", aus ? "Licht wieder anzünden" : "Licht löschen und mit der Taschenlampe suchen");
+    document.querySelectorAll(".clue").forEach(c => { c.tabIndex = aus ? 0 : -1; });
+    if (aus) toast(got.size === 6 ? "Alle sechs Buchstaben sind schon gefunden: LIMMAT. Damit öffnest du die versiegelte Akte." : "Stromausfall. Bewege die Taschenlampe über die Seite und scrolle weiter.");
+  }
+  function lampe(x, y) { night.style.setProperty("--fx", x + "px"); night.style.setProperty("--fy", y + "px"); }
+  night.style.setProperty("--r", Math.max(140, Math.min(innerWidth, innerHeight) * 0.22) + "px");
+  addEventListener("pointermove", e => lampe(e.clientX, e.clientY));
+  addEventListener("pointerdown", e => lampe(e.clientX, e.clientY));
+  document.querySelectorAll(".clue").forEach(c => {
+    c.addEventListener("focus", () => { const r = c.getBoundingClientRect(); lampe(r.left + r.width / 2, r.top + r.height / 2); });
+    c.addEventListener("click", () => {
+      got.add(+c.dataset.i); speicher.schreib("dl-funde", [...got]); fuelle();
+      if (ton.ctx) ton.glocke(ton.ctx.currentTime, 0.25, 880);
+      if (got.size === 6) {
+        toast("Alle sechs gefunden: LIMMAT. Im Büro springt eine Schublade auf, und das Siegel von Akte 2 gibt nach.");
+        document.dispatchEvent(new CustomEvent("schublade"));
+        setTimeout(() => { licht(false); document.getElementById("schublade").scrollIntoView({ behavior: ruhig ? "auto" : "smooth", block: "center" }); }, 1400);
+      } else toast(`Spur gefunden: ${c.textContent}. Noch ${6 - got.size}.`);
+    });
+  });
+  btn.addEventListener("click", () => licht(!document.body.classList.contains("nacht")));
+  document.getElementById("lights2").addEventListener("click", () => licht(false));
+  addEventListener("keydown", e => { if (e.key === "Escape" && document.body.classList.contains("nacht")) licht(false); });
+  fuelle();
+  return { an: () => { licht(true); scrollTo({ top: 0, behavior: ruhig ? "auto" : "smooth" }); } };
+})();
+
+/* ---------- Pinnwand ---------- */
+(() => {
+  const L = [
+    ["steinhauser", "Viktor Steinhauser · 61", "Seidenindustrieller aus Zürich", "Reich, krank am Herzen, seit Wochen seltsam nervös. Gastgeber des Winterballs.", null],
+    ["pemberton", "Lord Pemberton · 58", "Englischer Bergsteiger", "Soll bald Präsident des Alpine Club werden. War vor zwanzig Jahren schon einmal in Valtrina.", true],
+    ["varenne", "Odile Varenne · 27", "Sopranistin aus Paris", "Trägt ein altes goldenes Medaillon und lächelt nie, wenn Steinhauser spricht.", true],
+    ["brunner", "Dr. Emil Brunner · 49", "Zürcher Arzt, Hotelarzt", "Sitzt bis spät in die Nacht am Kartentisch. Man munkelt von Spielschulden.", true],
+    ["clara", "Clara Steinhauser · 24", "Nichte und Erbin, Fotografin", "Trägt ihre Kamera immer bei sich. Scharfe Zunge.", true],
+    ["gian", "Gian Caduff · 30", "Bergführer in Valtrina", "Sein Vater Jon starb 1907 am Piz Valtrina, auf einer Tour mit Steinhauser.", true],
+    ["lanz", "Seraina Lanz · 44", "Direktorin des Grandhotels", "Führt das Hotel seit zwanzig Jahren, und es ist hoch verschuldet.", true],
+    ["moser", "Ferdinand Moser · 63", "Concierge und Nachtportier", "Sieht alles, sagt wenig, schreibt alles in sein Dienstbuch.", true]
+  ];
+  const F = [["steinhauser", "clara", "Onkel und Nichte"], ["gian", "lanz", "Neffe und Tante"], ["gian", "steinhauser", "1907 am Piz Valtrina"], ["moser", "lanz", "Concierge und Direktorin"],
+    ["varenne", "steinhauser", "lächelt nie, wenn er spricht"], ["brunner", "lanz", "Hotelarzt und Direktorin"], ["pemberton", "steinhauser", "Gast an seinem Tisch"]];
+  const V = ["unverdächtig", "verdächtig", "Hauptverdacht"];
+  const verdacht = speicher.lies("dl-verdacht", {});
+  const name = id => L.find(p => p[0] === id)[1].split(" · ")[0];
+  const cards = document.getElementById("cards");
+  cards.innerHTML = L.map(([id, t, role, txt, ok]) => {
+    const fd = F.filter(f => f.includes(id)).map(f => `<li>${name(f[0] === id ? f[1] : f[0])}: ${f[2]}</li>`).join("");
+    return `<div class="pc" id="pc-${id}" data-id="${id}"><span class="pin"></span><span class="rel" aria-hidden="true"></span><div class="pc-inner">
+      <div class="face front"><button class="photo" type="button" data-flip aria-label="Akte von ${t.split(" · ")[0]} umdrehen"><img src="img/p_${id}.jpg" alt="Porträt ${t.split(" · ")[0]}"><span class="stamp-mark" hidden></span></button>
+        <h3>${t}</h3><p class="role">${role}</p></div>
+      <div class="face back" aria-hidden="true"><p class="lbl">Was alle wissen</p><p>${txt}</p>
+        ${fd ? `<p class="lbl">Verbindungen</p><ul>${fd}</ul>` : ""}
+        ${ok ? `<p class="lbl">Dein Verdacht</p><div class="verdacht">${V.map(v => `<button type="button" data-v="${v}" aria-pressed="false" tabindex="-1">${v}</button>`).join("")}</div>`
+             : `<p class="lbl">Seine Worte</p><p><i>«Einer von ihnen wünscht mir den Tod.»</i></p>`}
+        <button class="turn" type="button" data-flip tabindex="-1">Zurückdrehen</button></div>
+    </div></div>`;
+  }).join("");
+  function zeige(id) {
+    const pc = document.getElementById("pc-" + id), v = verdacht[id], st = pc.querySelector(".stamp-mark");
+    st.hidden = !v; st.textContent = v || "";
+    pc.querySelectorAll("[data-v]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+  }
+  L.forEach(p => zeige(p[0]));
+  cards.addEventListener("click", e => {
+    const pc = e.target.closest(".pc"); if (!pc) return;
+    if (e.target.closest("[data-flip]")) {
+      const an = pc.classList.toggle("flipped");
+      pc.querySelector(".back").setAttribute("aria-hidden", String(!an));
+      pc.querySelector(".front").setAttribute("aria-hidden", String(an));
+      pc.querySelectorAll(".back button").forEach(b => b.tabIndex = an ? 0 : -1);
+      pc.querySelector(".photo").tabIndex = an ? -1 : 0;
+      (an ? pc.querySelector(".back button") : pc.querySelector(".photo")).focus({ preventScroll: true });
+      if (an) document.querySelectorAll(".pc.flipped").forEach(o => { if (o === pc) return; o.classList.remove("flipped");
+        o.querySelector(".back").setAttribute("aria-hidden", "true"); o.querySelector(".front").setAttribute("aria-hidden", "false");
+        o.querySelectorAll(".back button").forEach(x => x.tabIndex = -1); o.querySelector(".photo").tabIndex = 0; });
+      fokus(an ? pc.dataset.id : null);
+    }
+    const vb = e.target.closest("[data-v]");
+    if (vb) { const id = pc.dataset.id; verdacht[id] = verdacht[id] === vb.dataset.v ? undefined : vb.dataset.v; speicher.schreib("dl-verdacht", verdacht); zeige(id); }
+  });
+  // Beziehungen erscheinen, sobald eine Akte aufgedeckt ist, und verschwinden, wenn alle Karten wieder zu sind
+  const board = document.getElementById("board"), bstatus = document.getElementById("bstatus"), ruhe = bstatus.textContent;
+  function fokus(id) {
+    if (!id) { board.classList.remove("focus"); bstatus.textContent = ruhe; document.querySelectorAll(".pc").forEach(pc => pc.classList.remove("self", "linked")); return; }
+    board.classList.add("focus");
+    const wer = name(id), liste = [];
+    document.querySelectorAll(".pc").forEach(pc => {
+      const f = F.find(f => f.includes(id) && f.includes(pc.dataset.id) && pc.dataset.id !== id);
+      pc.classList.toggle("self", pc.dataset.id === id); pc.classList.toggle("linked", !!f);
+      pc.querySelector(".rel").innerHTML = f ? `<small>Beziehung zu ${wer}</small>${f[2]}` : "";
+      if (f) liste.push(`${name(pc.dataset.id)} (${f[2]})`);
+    });
+    bstatus.innerHTML = `Beziehungen von <b>${wer}</b>: ${liste.join(" · ")}`;
+  }
+})();
+
+
+/* ---------- Das Büro ---------- */
+(() => {
+  const SP = [["Der Blick", "Grossmünster und Limmat. Von hier siehst du, wer über die Brücke kommt, lange bevor es an der Tür klopft."], ["Die Fensterläden", "Wenn der Föhn kommt, rüttelt er daran. Meistens bringt er Kopfweh. Manchmal einen Fall."], ["Der Kaffee", "Kalt. Wie fast immer, wenn die Miete fällig ist."], ["Papier und Bleistift", "Leer. Jeder Fall beginnt mit einem leeren Blatt und endet mit einer vollen Fallakte."], ["Die Schublade", "Abgeschlossen. Den Schlüssel findest du nur im Dunkeln: Lösch das Licht und such die ganze Seite nach sechs Buchstaben ab."], ["Der Mantel", "Hängt immer bereit. Ein Fall wartet selten auf gutes Wetter."], ["Der Schirm", "In Zürich das wichtigste Werkzeug nach dem Notizbuch."], ["Die Akten", "Ein Ordner pro Fall. Der erste trägt die Aufschrift «Valtrina, Januar 1927». <a href=\"#band-1\">Zum Fall</a>"], ["Der Stuhl", "Hier sitzt, wer genau hinschaut. Im Moment bist das du."]];
+  const seen = new Set(speicher.lies("dl-buero", [])), notiz = document.getElementById("notiz"), spuren = document.getElementById("spuren");
+  const spots = [...document.querySelectorAll(".spot")];
+  function stand() { spots.forEach((b, i) => b.classList.toggle("seen", seen.has(i))); spuren.textContent = seen.size === SP.length ? "Alle 9 untersucht. Nichts übersehen. So arbeitet die Detektei." : `${seen.size} von ${SP.length} untersucht`; }
+  spots.forEach((b, i) => b.addEventListener("click", () => {
+    spots.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    notiz.innerHTML = `<h3>${SP[i][0]}</h3><p>${SP[i][1]}</p>`;
+    seen.add(i); speicher.schreib("dl-buero", [...seen]); stand();
+  }));
+  stand();
+  // Der Schluessel zur Schublade liegt im Dunkeln: sechs Buchstaben auf der ganzen Seite
+  const lade = document.getElementById("schublade");
+  document.getElementById("lampe").addEventListener("click", () => nacht.an());
+  document.addEventListener("schublade", () => { lade.hidden = false; speicher.schreib("dl-lade", true); notiz.innerHTML = "<h3>Ein kleiner Messingschlüssel.</h3><p>Er passt. Die Schublade gleitet auf.</p>"; });
+  if (speicher.lies("dl-lade", false)) lade.hidden = false;
+  // Uhr mit Zuercher Zeit
+  const zh = document.getElementById("zh"), zm = document.getElementById("zm"), zeit = document.getElementById("zeit");
+  function jetzt() {
+    let h = 0, m = 0;
+    try { const t = new Intl.DateTimeFormat("de-CH", { timeZone: "Europe/Zurich", hour: "2-digit", minute: "2-digit", hour12: false }).formatToParts(new Date()); h = +t.find(x => x.type === "hour").value % 24; m = +t.find(x => x.type === "minute").value; }
+    catch (e) { const d = new Date(); h = d.getHours(); m = d.getMinutes(); }
+    return [h, m];
+  }
+  function tick() { const [h, m] = jetzt(); zh.setAttribute("transform", `rotate(${(h % 12) * 30 + m / 2} 100 100)`); zm.setAttribute("transform", `rotate(${m * 6} 100 100)`); zeit.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; }
+  tick(); setInterval(tick, 15000);
+  const sb = document.getElementById("schlag");
+  sb.addEventListener("click", async () => { const [h] = jetzt(); sb.disabled = true; await schlaege(h % 12 || 12, document.querySelector(".uhr svg")); sb.disabled = false; });
+})();
+
+/* ---------- Akte 2: Siegel und Pruefung ---------- */
+(() => {
+  const siegel = document.getElementById("siegel"), form = document.getElementById("pruefung"), msg = document.getElementById("msg");
+  const zu = document.getElementById("zu"), offen = document.getElementById("offen");
+  const ZIEL = "bGltbWF0";  // verschluesselt, damit die Antwort nicht im Klartext im Quelltext steht
+  function oeffne() { zu.hidden = true; offen.hidden = false; speicher.schreib("dl-akte2", true); }
+  siegel.addEventListener("click", () => {
+    if (ruhig) { siegel.hidden = true; form.hidden = false; document.getElementById("kennwort").focus(); return; }
+    siegel.classList.add("bricht"); setTimeout(() => { siegel.hidden = true; siegel.nextElementSibling.hidden = true; form.hidden = false; document.getElementById("kennwort").focus(); }, 650);
+  });
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const v = document.getElementById("kennwort").value.toLowerCase().normalize("NFD").replace(/[^a-z]/g, "");
+    if (!v) { msg.textContent = "Bitte das Kennwort eingeben."; return; }
+    if (btoa(v) === ZIEL) oeffne();
+    else msg.textContent = "Das Siegel hält. Lösch das Licht und such die sechs Buchstaben.";
+  });
+  document.getElementById("lights3").addEventListener("click", () => nacht.an());
+  if (speicher.lies("dl-akte2", false)) oeffne();
+})();
+
+/* ---------- Ermittlerkreis ---------- */
+(() => {
+  const f = document.getElementById("beitritt"), msg = document.getElementById("kreis-msg");
+  f.addEventListener("submit", async e => {
+    e.preventDefault();
+    const mail = f.email.value.trim(), name = f.deckname.value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) { msg.textContent = "Bitte eine gültige E-Mail-Adresse eingeben."; return; }
+    if (!f.einwilligung.checked) { msg.textContent = "Bitte bestätige das Einverständnis."; return; }
+    const text = `Ich möchte dem Ermittlerkreis beitreten.\nE-Mail: ${mail}${name ? "\nDeckname: " + name : ""}`;
+    if (EINSTELLUNGEN.web3formsSchluessel) {
+      try {
+        const r = await fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ access_key: EINSTELLUNGEN.web3formsSchluessel, subject: "Ermittlerkreis: neue Anmeldung", from_name: "Detektei Limmat Website", email: mail, deckname: name, nachricht: text }) });
+        const j = await r.json(); if (!j.success) throw new Error();
+        f.innerHTML = `<p class="story" style="margin:0">Willkommen im Ermittlerkreis${name ? ", " + name.replace(/[<>&]/g, "") : ""}. Die Detektei meldet sich, sobald sich die nächste Akte öffnet.</p>`; return;
+      } catch (err) { /* weiter mit der E-Mail-Variante */ }
+    }
+    msg.innerHTML = `Fast geschafft: Schick diese Zeilen an <span class="mail">${EINSTELLUNGEN.empfaenger}</span>. <a href="mailto:${EINSTELLUNGEN.empfaenger}?subject=${encodeURIComponent("Ermittlerkreis")}&body=${encodeURIComponent(text)}">E-Mail öffnen</a>`;
+    try { await navigator.clipboard.writeText(text); msg.innerHTML += " · Text ist kopiert."; } catch (err) {}
+  });
+})();
+
+/* ---------- Ton: Wind über der Limmat ---------- */
+(() => {
+  const btn = document.getElementById("sound"); let wind = null;
+  btn.addEventListener("click", async () => {
+    const c = await ton.an(); if (!c) { toast("Dein Browser gibt hier keinen Ton aus."); return; }
+    if (wind) { wind.g.gain.cancelScheduledValues(c.currentTime); wind.g.gain.linearRampToValueAtTime(0.0001, c.currentTime + 0.8); const w = wind; setTimeout(() => { try { w.s.stop(); w.l1.stop(); w.l2.stop(); } catch (e) {} }, 900); wind = null; }
+    else {
+      const len = c.sampleRate * 4, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0); let last = 0;
+      for (let i = 0; i < len; i++) { last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02; d[i] = last * 3.5; }
+      const s = c.createBufferSource(); s.buffer = buf; s.loop = true;
+      const f = c.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 430; f.Q.value = 0.7;
+      const g = c.createGain(); g.gain.value = 0.0001;
+      const l1 = c.createOscillator(), a1 = c.createGain(); l1.frequency.value = 0.11; a1.gain.value = 230; l1.connect(a1).connect(f.frequency);
+      const l2 = c.createOscillator(), a2 = c.createGain(); l2.frequency.value = 0.07; a2.gain.value = 0.05; l2.connect(a2).connect(g.gain);
+      s.connect(f).connect(g).connect(c.destination); s.start(); l1.start(); l2.start(); g.gain.linearRampToValueAtTime(0.1, c.currentTime + 2);
+      wind = { s, g, l1, l2 };
+    }
+    btn.setAttribute("aria-pressed", String(!!wind)); btn.setAttribute("aria-label", wind ? "Wind ausschalten" : "Wind über der Limmat einschalten");
+  });
+})();
+</script>
+</body>
+</html>
