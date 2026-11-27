@@ -124,6 +124,9 @@ textarea { min-height: 110px; resize: vertical; font-family: var(--type); font-s
   position: relative; max-width: 460px; margin: 22px 0; padding: 22px 24px 64px; overflow: hidden;
   background: #1c2b3d; color: #f3ecdd; border: 1px solid #e2c27a; outline: 1px solid #e2c27a; outline-offset: -7px;
 }
+.bewerten { margin: 26px 0 6px; padding: 18px 18px 20px; border: 1px solid var(--line); border-left: 4px solid var(--gold); background: var(--card); }
+.bewerten h3 { margin: 0 0 6px; font-family: var(--display); font-size: 1.25rem; }
+.bewerten p { margin: 0 0 14px; }
 .ausweis .kopfz { display: flex; align-items: center; gap: 12px; }
 .ausweis .kopfz img { width: 46px; height: 46px; }
 .ausweis .kopfz b { font-family: var(--label); font-weight: 400; letter-spacing: 0.3em; font-size: 0.78rem; text-transform: uppercase; color: #e2c27a; display: block; }
@@ -699,7 +702,9 @@ function abschluss(z, gesendet, hinweis) {
   blaetter.forEach(b => { b.hidden = true; }); $("blaettern").hidden = true; $("register").hidden = true;
   $("meter").style.width = "100%";
   done.innerHTML = `<h2>${gesendet ? "Bericht erhalten. Danke!" : "Dein Bericht ist fertig."}</h2><p>${hinweis}</p><div id="ausweis-platz"></div>
-    <p class="hint">Dein Ermittlerausweis. Mach ein Bildschirmfoto, wenn du ihn behalten oder zeigen willst. Er verrät nichts über die Lösung.</p>` +
+    <p class="hint">Dein Ermittlerausweis. Mach ein Bildschirmfoto, wenn du ihn behalten oder zeigen willst. Er verrät nichts über die Lösung.</p>
+    <div class="bewerten"><h3>Eine letzte Bitte der Detektei</h3><p>Eine ehrliche Bewertung auf Amazon hilft anderen Rätselfans, den Fall zu finden. Zwei Sätze genügen, bitte ohne Lösungen zu verraten.</p>
+    <a class="btn solid" href="https://www.amazon.de/review/create-review?asin=B0HT49YV8Q" target="_blank" rel="noopener">Auf Amazon bewerten</a></div>` +
     (gesendet ? "" : `<pre id="txt"></pre><p class="mail">${EINSTELLUNGEN.empfaenger}</p>
     <div class="actions"><button class="btn solid" type="button" id="copy">Bericht kopieren</button><a class="btn" href="mailto:${EINSTELLUNGEN.empfaenger}?subject=${encodeURIComponent(EINSTELLUNGEN.betreff)}&body=${encodeURIComponent(text)}">E-Mail-Programm öffnen</a></div>
     <p class="hint" id="copy-msg" aria-live="polite"></p>`);
